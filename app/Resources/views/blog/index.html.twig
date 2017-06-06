@@ -8,8 +8,15 @@
             </div>
 
             <div id="status">
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ac feugiat ex. Cras consectetur imperdiet odio vel mattis. Curabitur sagittis felis eget convallis consectetur. Duis volutpat, ligula et eleifend pretium, nisl ex maximus massa, nec rutrum odio ipsum venenatis nibh. Maecenas tristique metus sit amet nunc finibus, sit amet lobortis lectus pretium. Maecenas rhoncus nisi nec dui faucibus aliquet. Vestibulum id pretium dolor. Ut id nibh rutrum, lacinia felis quis, laoreet mauris. Nam ultrices est in mi convallis iaculis. Aenean elementum dolor sed orci rutrum venenatis. Morbi viverra ex a elementum maximus. Fusce quis lacus blandit, finibus enim in, congue orci. Cras ultrices nisi vel risus rutrum, ac imperdiet nulla accumsan. Maecenas sit amet est at ante pretium feugiat et et nisi. Suspendisse accumsan augue eu eros dictum, et laoreet tellus iaculis. Nunc sed mauris ac ipsum facilisis commodo at eget urna. </p>
-                </p>
+
+                <ul>
+                    {% for article in articles %}
+
+                        <li>{{article.id}} - {{article.title}} </li>
+
+                    {% endfor %}
+
+                </ul>
             </div>
 
         </div>

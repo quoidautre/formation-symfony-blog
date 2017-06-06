@@ -17,16 +17,28 @@ class BlogController extends Controller {
      * requirements={"page": "\d+"})
      */
     public function indexAction(Request $request, $page) {
-        // replace this example code with whatever you , need
-        return $this->render('blog/index.html.twig', ['page' => $page]);
+        $articles = [
+            "article" =>
+            [
+                "id" => 1,
+                "title" => "mon <u>titre</u>",
+                "date" => new \DateTime
+            ],
+            [
+                "id" => 2,
+                "title" => "mon 2nd titre",
+                "date" => new \DateTime
+            ]
+        ];
+        return $this->render('blog/index.html.twig', ['page' => $page, 'articles' => $articles]);
     }
 
-    ////////////////////////
+////////////////////////
     /**
      * @Route("/add", name="add_blog")
      */
     public function addAction(Request $request) {
-        // replace this example code with whatever you , need
+// replace this example code with whatever you , need
         return $this->render('blog/add.html.twig');
     }
 
@@ -35,7 +47,7 @@ class BlogController extends Controller {
      * requirements={"id": "\d+"})
      */
     public function deleteAction(Request $request, $id) {
-        // replace this example code with whatever you , need
+// replace this example code with whatever you , need
         return $this->render('blog/delete.html.twig', ['id' => $id]);
     }
 
@@ -43,8 +55,16 @@ class BlogController extends Controller {
      * @Route("/read", name="read_blog")
      */
     public function readAction(Request $request) {
+        $article = [
+            "article" => [
+                "id" => 20,
+                "title" => "mon <u>titre</u>",
+                "date" => new \DateTime]
+        ];
+
         // replace this example code with whatever you , need
-        return $this->render('blog/read.html.twig');
+        return $this->render(
+                        'blog/read.html.twig', $article);
     }
 
     /**
