@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="alert alert-success" role="alert">
+            <strong>Hi there, </strong>I'm the layout !
+        </div>
+        <div class="container theme-showcase" role="main">
+        {% block blog_body %}{% endblock %}
+    </div>
+</div>
+{% endblock %}

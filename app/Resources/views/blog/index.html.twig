@@ -1,26 +1,16 @@
-{% extends 'base.html.twig' %}
+{% extends ':blog:layout.html.twig' %}
+{% block title %} {{ parent() }} - Index{% endblock %}
+{% block blog_body %}
 
-{% block body %}
-    <div id="wrapper">
-        <div id="container">
-            <div id="welcome">
-                <h1><span>Welcome to my awesome</span> Blog </h1>
-            </div>
 
-            <div id="status">
+    <span class="label label-primary">Index</span>
+    <ul>
+        {% for article in articles %}
+            <li>{{article.id}} - {{article.title}} </li>
+            {% endfor %}
+    </ul>
 
-                <ul>
-                    {% for article in articles %}
 
-                        <li>{{article.id}} - {{article.title}} </li>
-
-                    {% endfor %}
-
-                </ul>
-            </div>
-
-        </div>
-    </div>
 {% endblock %}
 
 
