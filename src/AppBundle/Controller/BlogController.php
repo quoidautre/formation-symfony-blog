@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Article;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,7 +38,15 @@ class BlogController extends Controller {
      * @Route("/add", name="add_blog")
      */
     public function addAction(Request $request) {
-// replace this example code with whatever you , need
+        $article = new Article();
+        $article->setTitle('mon titre #' . rand(10, 50))
+                ->setContent('blablablablabla #' . rand(10, 50));
+
+        $doctrine = $this->getDoctrine()->getManager();
+        $doctrine->persist($article);
+        $doctrine->flush();
+
+        // replace this example code with whatever you , need
         return $this->render('blog/add.html.twig');
     }
 
