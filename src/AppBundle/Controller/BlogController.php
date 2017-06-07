@@ -33,7 +33,6 @@ class BlogController extends Controller {
         return $this->render('blog/index.html.twig', ['page' => $page, 'articles' => $articles]);
     }
 
-////////////////////////
     /**
      * @Route("/add", name="add_blog")
      */
@@ -78,6 +77,15 @@ class BlogController extends Controller {
          */
         // replace this example code with whatever you , need
         return $this->render('blog/update.html.twig', ['id' => $id]);
+    }
+
+    /**
+     * 
+     * @param Request $request
+     * @return type
+     */
+    public function lastAction(Request $request) {
+        return $this->render('blog/last.html.twig');
     }
 
 }

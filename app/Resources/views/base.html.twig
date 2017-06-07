@@ -21,29 +21,33 @@
     <link href="{{asset('css/') ~ 'theme.css'}}" rel="stylesheet">
 
 </head>
-
-<!-- Fixed navbar -->
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">Bootstrap theme</a>
+<body>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Bootstrap theme</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="{{path('homepage_blog')}}">Home</a></li>
+                    <li><a href="{{url('add_blog')}}">Add</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
         </div>
-        <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="{{path('homepage_blog')}}">Home</a></li>
-                <li><a href="{{url('add_blog')}}">Create</a></li>
-            </ul>
-        </div><!--/.nav-collapse -->
-    </div>
-</nav>
+    </nav>
 
-{% block body %}{% endblock %}
+    <div class="container" id="base-container">
+        <h5>base::body</h5>
+        {% block body %} {% endblock %}
+    </div><!-- end of base-container -->
+
 {% block javascripts %}{% endblock %}
 </body>
 </html>

@@ -1,9 +1,9 @@
 {% extends ':blog:layout.html.twig' %}
 {% block title %} {{ parent() }} - Index{% endblock %}
+
 {% block blog_body %}
 
-
-    <span class="label label-primary">Index</span>
+    <h2> <span class="label label-primary">blog_body::index</span></h2>
     <ul>
         {% for article in articles %}
             <li>{{article.id}} - {{article.title}} </li>
