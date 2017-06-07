@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Article;
+use AppBundle\Entity\Image;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,9 +39,14 @@ class BlogController extends Controller {
      * @Route("/add", name="add_blog")
      */
     public function addAction(Request $request) {
+        $image = new Image();
         $article = new Article();
+        $image->setUrl("https://robohash.org/humanbooster" . rand(5, 50))
+                ->setAlt("Mon robot #" . rand(5, 50));
+
         $article->setTitle('mon titre #' . rand(10, 50))
-                ->setContent('blablablablabla #' . rand(10, 50));
+                ->setContent('blablablablabla #' . rand(10, 50))
+                ->setImage($image);
 
         $doctrine = $this->getDoctrine()->getManager();
         $doctrine->persist($article);
