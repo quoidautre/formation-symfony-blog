@@ -6,8 +6,15 @@
             <div id="welcome">
                 <h1>Read...</h1>
             </div>
-            <div id="#content">{{article.title | raw}} // {{article.id}} </div>
-            <span id="#date">{{article.date | date('d/m/Y')}} </span>
+            <div class="row">
+                <div class="col-md-8"> <h2>{{article.title}}</h2>
+                    <p>{{article.content}}</p></div>
+                <div class="col-md-4"> 
+                    {% if  article.image.url is defined %}
+                        <img src="{{article.image.url}}" alt="{{article.image.alt}}">
+                    {% endif %}
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}

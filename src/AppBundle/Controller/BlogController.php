@@ -14,24 +14,22 @@ use Symfony\Component\HttpFoundation\Request;
 class BlogController extends Controller {
 
     /**
+     * 
+     */
+    public function __construct() {
+        //$this->em = $this->getDoctrine()->getManager();
+        //  parent::__construct();
+    }
+
+    /**
      * @Route("/{page}", name="homepage_blog", 
      * defaults={"page":1}, 
      * requirements={"page": "\d+"})
      */
     public function indexAction(Request $request, $page) {
-        $articles = [
-            "article" =>
-            [
-                "id" => 1,
-                "title" => "mon <u>titre</u>",
-                "date" => new \DateTime
-            ],
-            [
-                "id" => 2,
-                "title" => "mon 2nd titre",
-                "date" => new \DateTime
-            ]
-        ];
+        $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:Article');
+        $articles = $repository->findAll();
+
         return $this->render('blog/index.html.twig', ['page' => $page, 'articles' => $articles]);
     }
 
@@ -48,12 +46,15 @@ class BlogController extends Controller {
                 ->setContent('blablablablabla #' . rand(10, 50))
                 ->setImage($image);
 
-        $doctrine = $this->getDoctrine()->getManager();
-        $doctrine->persist($article);
-        $doctrine->flush();
+        $this->em->persist($article);
+        $this->em->flush();
 
         // replace this example code with whatever you , need
-        return $this->render('blog/add.html.twig');
+        $id = $article->getId();
+        $route = 'read_blog';
+        $parameters = ['id' => $id];
+
+        return $this->redirectToRoute($route, $parameters);
     }
 
     /**
@@ -66,19 +67,26 @@ class BlogController extends Controller {
     }
 
     /**
-     * @Route("/read", name="read_blog")
+     * @Route("/read/{id}", name="read_blog")
+     * requirements={"id": "\d+"})
      */
-    public function readAction(Request $request) {
-        $article = [
-            "article" => [
-                "id" => 20,
-                "title" => "mon <u>titre</u>",
-                "date" => new \DateTime]
-        ];
+    public function readAction(Request $request, $id) {
+        /* $article = [
+          "article" => [
+          "id" => 20,
+          "title" => "mon <u>titre</u>",
+          "date" => new \DateTime]
+          ]; */
+        if ($id) {
+            $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:Article');
+            $article = $repository->find($id);
 
-        // replace this example code with whatever you , need
-        return $this->render(
-                        'blog/read.html.twig', $article);
+            // replace this example code with whatever you , need
+            return $this->render(
+                            'blog/read.html.twig', ['article' => $article]);
+        } else {
+            throw new \Exception('id require !');
+        }
     }
 
     /**
@@ -99,8 +107,17 @@ class BlogController extends Controller {
      * @param Request $request
      * @return type
      */
-    public function lastAction(Request $request) {
-        return $this->render('blog/last.html.twig');
+    public function lastAction($nb = 5) {
+        if ($nb) {
+            $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:Article');
+            $articles = $repository->findBy(
+                    ['publicate' => true], ['date' => 'DESC'], $nb, 0
+            );
+            return $this->render(
+                            'blog/last.html.twig', ['articles' => $articles]);
+        } else {
+            throw new \Exception('id require !');
+        }
     }
 
 }
