@@ -96,14 +96,10 @@ class BlogController extends Controller {
         if ($id) {
             $em = $this->getDoctrine()->getManager();
             $article = $em->getRepository('AppBundle:Article')->find($id);
-            // dump($article);
-
-            $repositoryComment = $em->getRepository('AppBundle:Comment');
-            $comments = $repositoryComment->findBy(array('article' => $article));
-            //dump($comments);
+            dump($article);
             // replace this example code with whatever you , need
             return $this->render(
-                            'blog/read.html.twig', ['article' => $article, 'comments' => $comments]);
+                            'blog/read.html.twig', ['article' => $article]); //$article->getComments();
         } else {
             throw new \Exception('id require !');
         }
