@@ -84,8 +84,16 @@ class BlogController extends Controller {
      * requirements={"id": "\d+"})
      */
     public function deleteAction(Request $request, $id) {
-// replace this example code with whatever you , need
-        return $this->render('blog/delete.html.twig', ['id' => $id]);
+        if ($id) {
+            $em = $this->getDoctrine()->getManager();
+            $article = $em->getRepository('AppBundle:Article')->find($id);
+            $em->remove($article);
+            $em->flush();
+
+            return $this->render('blog/delete.html.twig', ['id' => $id]);
+        } else {
+            throw new \Exception('id require !');
+        }
     }
 
     /**

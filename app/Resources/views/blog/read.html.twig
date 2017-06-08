@@ -11,7 +11,7 @@
                     <p>{{article.content}}</p></div>
                 <div class="col-md-4"> 
                     {% if  article.image.url is defined %}
-                        <img src="{{article.image.url}}" alt="{{article.image.alt}}">
+                        <img src="{{article.image.url}}" alt="{{article.image.alt}}" width="120" height="120">
                     {% endif %}
                 </div>
             </div>
@@ -37,6 +37,22 @@
                             <a href="{{path('article_tag_blog',{'id':tags.id})}}" style="color:#fff">{{tags.title}}</a>
                         </span>
                     {% endfor %}
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-8">
+
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Actions</h3>
+                        </div>
+                        <div class="panel-body">
+                            <button type="button" class="btn btn-xs btn-primary">Modify</button>
+                            <a href="{{path('delete_blog',{'id':article.id})}}"><button type="button" class="btn btn-xs btn-danger">Remove</button></a>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
