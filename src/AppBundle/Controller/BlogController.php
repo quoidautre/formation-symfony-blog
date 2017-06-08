@@ -86,13 +86,22 @@ class BlogController extends Controller {
     public function deleteAction(Request $request, $id) {
         if ($id) {
             $em = $this->getDoctrine()->getManager();
-            $article = $em->getRepository('AppBundle:Article')->find($id);
-            $em->remove($article);
-            $em->flush();
+            $session = $this->get('session');
 
-            return $this->render('blog/delete.html.twig', ['id' => $id]);
+            try {
+                $article = $em->getRepository('AppBundle:Article')->find($id);
+                $em->remove($article);
+                $em->flush();
+                $typeAlert = 'success';
+                $session->getFlashBag()->add('messageremovearticle', 'Article succefully remove.');
+            } catch (\Exception $ex) {
+                $typeAlert = 'danger';
+                $session->getFlashBag()->add('messageremovearticle', 'An error occured during removing process !');
+            }
+
+            return $this->render('blog/delete.html.twig', ['id' => $id, 'typeAlert' => $typeAlert]);
         } else {
-            throw new \Exception('id require !');
+            throw new \Exception('id require!');
         }
     }
 
@@ -109,7 +118,7 @@ class BlogController extends Controller {
             return $this->render(
                             'blog/read.html.twig', ['article' => $article]); //$article->getComments();
         } else {
-            throw new \Exception('id require !');
+            throw new \Exception('id require!');
         }
     }
 
@@ -140,7 +149,7 @@ class BlogController extends Controller {
             return $this->render(
                             'blog/last.html.twig', ['articles' => $articles]);
         } else {
-            throw new \Exception('id require !');
+            throw new \Exception('id require!');
         }
     }
 
@@ -155,7 +164,7 @@ class BlogController extends Controller {
 
             return $this->render('blog/tags.html.twig', ['articles' => $tag->getArticles(), 'tag' => $tag]);
         } else {
-            throw new \Exception('id require !');
+            throw new \Exception('id require!');
         }
     }
 
