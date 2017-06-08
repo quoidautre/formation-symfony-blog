@@ -15,8 +15,33 @@
                     {% endif %}
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <h3>Comments</h3>
+                    <table class="table">
+                        {% for comment in comments %}
+                            <tr>
+                                <td>
+
+                                    {{comment.content}}
+
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <h3>Tags</h3>
+                    {% for tags in article.tags %}
+                        <span class="label label-info">
+                            <a href="{{path('article_tag_blog',{'id':tags.id})}}" style="color:#fff">{{tags.title}}</a>
+                        </span>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
-    </div>
-{% endblock %}
+    {% endblock %}
 
 

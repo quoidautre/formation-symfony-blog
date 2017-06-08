@@ -4,6 +4,8 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Article;
 use AppBundle\Entity\Image;
+use AppBundle\Entity\Comment;
+use AppBundle\Entity\Tag;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,8 +19,7 @@ class BlogController extends Controller {
      * 
      */
     public function __construct() {
-        //$this->em = $this->getDoctrine()->getManager();
-        //  parent::__construct();
+        
     }
 
     /**
@@ -37,17 +38,38 @@ class BlogController extends Controller {
      * @Route("/add", name="add_blog")
      */
     public function addAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $comment1 = new Comment();
+        $comment2 = new Comment();
         $image = new Image();
         $article = new Article();
+        $tags = new Tag();
+
+        ///////////////////
         $image->setUrl("https://robohash.org/humanbooster" . rand(5, 50))
                 ->setAlt("Mon robot #" . rand(5, 50));
 
+        ///////////////////
         $article->setTitle('mon titre #' . rand(10, 50))
                 ->setContent('blablablablabla #' . rand(10, 50))
                 ->setImage($image);
 
-        $this->em->persist($article);
-        $this->em->flush();
+        ///////////////////       
+        $comment1->setContent("content #1");
+        $comment1->setArticle($article);
+
+        $comment2->setContent("content #2");
+        $comment2->setArticle($article);
+
+        ///////////////////   
+        $tags->setTitle("php 7.0");
+        $article->addTag($tags);
+
+        //////////////////////////////////////////////////
+        $em->persist($comment1);
+        $em->persist($comment2);
+        $em->persist($article);
+        $em->flush();
 
         // replace this example code with whatever you , need
         $id = $article->getId();
@@ -71,19 +93,17 @@ class BlogController extends Controller {
      * requirements={"id": "\d+"})
      */
     public function readAction(Request $request, $id) {
-        /* $article = [
-          "article" => [
-          "id" => 20,
-          "title" => "mon <u>titre</u>",
-          "date" => new \DateTime]
-          ]; */
         if ($id) {
-            $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:Article');
-            $article = $repository->find($id);
+            $em = $this->getDoctrine()->getManager();
+            $article = $em->getRepository('AppBundle:Article')->find($id);
+            // dump($article);
 
+            $repositoryComment = $em->getRepository('AppBundle:Comment');
+            $comments = $repositoryComment->findBy(array('article' => $article));
+            //dump($comments);
             // replace this example code with whatever you , need
             return $this->render(
-                            'blog/read.html.twig', ['article' => $article]);
+                            'blog/read.html.twig', ['article' => $article, 'comments' => $comments]);
         } else {
             throw new \Exception('id require !');
         }
@@ -115,6 +135,21 @@ class BlogController extends Controller {
             );
             return $this->render(
                             'blog/last.html.twig', ['articles' => $articles]);
+        } else {
+            throw new \Exception('id require !');
+        }
+    }
+
+    /**
+     * @Route("/tag/articles/{id}", name="article_tag_blog",
+     * requirements={"id": "\d+"})
+     */
+    public function tagAction($id) {
+        if ($id) {
+            $em = $this->getDoctrine()->getManager();
+            $tag = $em->getRepository('AppBundle:Tag')->find($id);
+
+            return $this->render('blog/tags.html.twig', ['articles' => $tag->getArticles(), 'tag' => $tag]);
         } else {
             throw new \Exception('id require !');
         }
