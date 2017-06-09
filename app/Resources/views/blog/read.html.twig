@@ -35,7 +35,7 @@
                     {% for tags in article.tags %}
                         <span class="label label-info">
                             <a href="{{path('article_tag_blog',{'id':tags.id})}}" style="color:#fff">{{tags.title}}</a>
-                        </span>
+                        </span>&nbsp;
                     {% endfor %}
                 </div>
             </div>

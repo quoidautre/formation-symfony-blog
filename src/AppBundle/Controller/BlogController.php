@@ -28,8 +28,10 @@ class BlogController extends Controller {
      * requirements={"page": "\d+"})
      */
     public function indexAction(Request $request, $page) {
-        $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:Article');
-        $articles = $repository->findAll();
+        $articles = $this->getDoctrine()
+                ->getManager()
+                ->getRepository('AppBundle:Article')
+                ->findAll();
 
         return $this->render('blog/index.html.twig', ['page' => $page, 'articles' => $articles]);
     }
@@ -111,12 +113,13 @@ class BlogController extends Controller {
      */
     public function readAction(Request $request, $id) {
         if ($id) {
-            $em = $this->getDoctrine()->getManager();
-            $article = $em->getRepository('AppBundle:Article')->find($id);
-            dump($article);
-            // replace this example code with whatever you , need
+            $article = $this->getDoctrine()
+                    ->getManager()
+                    ->getRepository('AppBundle:Article')
+                    ->getById($id);
+
             return $this->render(
-                            'blog/read.html.twig', ['article' => $article]); //$article->getComments();
+                            'blog/read.html.twig', ['article' => $article]);
         } else {
             throw new \Exception('id require!');
         }
@@ -160,9 +163,10 @@ class BlogController extends Controller {
     public function tagAction($id) {
         if ($id) {
             $em = $this->getDoctrine()->getManager();
+            $articles = $em->getRepository('AppBundle:Article')->getByTagId($id);
             $tag = $em->getRepository('AppBundle:Tag')->find($id);
-
-            return $this->render('blog/tags.html.twig', ['articles' => $tag->getArticles(), 'tag' => $tag]);
+            dump($articles);
+            return $this->render('blog/tags.html.twig', ['articles' => $articles, 'tag' => $tag]);
         } else {
             throw new \Exception('id require!');
         }
