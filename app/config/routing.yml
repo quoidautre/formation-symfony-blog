@@ -1,0 +1,7 @@
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation
+    
+#add_blog:
+#    path:     /blog/add
+#    defaults: { _controller: AppBundle:Blog:add }

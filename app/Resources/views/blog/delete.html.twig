@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div id="wrapper">
+        <div id="container">
+            <div id="welcome">
+                <h1>Deleting</h1>
+                <div class="alert alert-{{typeAlert}}" role="{{typeAlert}}">
+                    {% for message in app.session.flashbag.get('messageremovearticle')%}
+                        <p>{{message}}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+

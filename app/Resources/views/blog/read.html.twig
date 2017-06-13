@@ -1,0 +1,61 @@
+{% extends ':blog:layout.html.twig' %}
+
+{% block body %}
+    <div id="wrapper">
+        <div id="container">
+            <div id="welcome">
+                <h1>Read...</h1>
+            </div>
+            <div class="row">
+                <div class="col-md-8"> <h2>{{article.title}}</h2>
+                    <p>{{article.content}}</p></div>
+                <div class="col-md-4"> 
+                    {% if  article.image.url is defined %}
+                        <img src="{{article.image.url}}" alt="{{article.image.alt}}" width="120" height="120">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <h3>Comments</h3>
+                    <table class="table">
+                        {% for comment in article.comments %}
+                            <tr>
+                                <td>
+                                    {{comment.content}}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <h3>Tags</h3>
+                    {% for tags in article.tags %}
+                        <span class="label label-info">
+                            <a href="{{path('article_tag_blog',{'id':tags.id})}}" style="color:#fff">{{tags.title}}</a>
+                        </span>&nbsp;
+                    {% endfor %}
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-8">
+
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Actions</h3>
+                        </div>
+                        <div class="panel-body">
+                            <button type="button" class="btn btn-xs btn-primary">Modify</button>
+                            <a href="{{path('delete_blog',{'id':article.id})}}"><button type="button" class="btn btn-xs btn-danger">Remove</button></a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+
+
