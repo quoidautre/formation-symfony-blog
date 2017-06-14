@@ -48,12 +48,12 @@ class BlogController extends Controller {
         $tags = new Tag();
 
         ///////////////////
-        $image->setUrl("https://robohash.org/humanbooster" . rand(5, 50))
-                ->setAlt("Mon robot #" . rand(5, 50));
+        $image->setUrl("https://robohash.org/humanbooster" . mt_rand(5, 50))
+                ->setAlt("Mon robot #" . mt_rand(5, 50));
 
         ///////////////////
-        $article->setTitle('mon titre #' . rand(10, 50))
-                ->setContent('blablablablabla #' . rand(10, 50))
+        $article->setTitle('mon titre #' . mt_rand(10, 50))
+                ->setContent('blablablablabla #' . mt_rand(10, 50))
                 ->setImage($image);
 
         ///////////////////       
