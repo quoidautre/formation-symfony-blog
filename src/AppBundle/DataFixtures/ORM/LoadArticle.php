@@ -14,7 +14,7 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
  * Time: 18:07
  */
 
-class LoadArticle extends AbstractFixture implements FixtureInterface {
+class LoadArticle implements FixtureInterface {
 
     /**
      * @param ObjectManager $manager

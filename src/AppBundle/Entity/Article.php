@@ -51,7 +51,8 @@ class Article {
 
     /**
      * @var Image
-     * @ORM\OneToOne(targetEntity="Image", cascade={"persist","remove"})
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Image", cascade={"persist","remove"})
+     * @ORM\JoinColumn(nullable=false)
      */
     private $image;
 
@@ -227,7 +228,6 @@ class Article {
     public function getTags() {
         return $this->tags;
     }
-
 
     /**
      * Add comment

@@ -28,7 +28,7 @@ class Tag {
      */
     private $title;
 
-    /**
+    /*
      * @var \Doctrine\Common\Collections\ArrayCollection
      * @ORM\ManyToMany(
      * targetEntity="Article", 
