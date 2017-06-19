@@ -32,7 +32,7 @@ class ArticleRepository extends \Doctrine\ORM\EntityRepository {
     /**
      * 
      * @param type $id
-     * @return type
+     * @return array
      */
     public function getByTagId($id) {
         if ($id) {
@@ -43,6 +43,19 @@ class ArticleRepository extends \Doctrine\ORM\EntityRepository {
                             ->andWhere('a.publicate = :publicate')
                             ->setParameter(':publicate', 1)
                             ->orderBy('a.date', 'DESC')
+                            ->getQuery()
+                            ->getResult();
+        }
+        return null;
+    }
+
+    public function getLast($limit = 5) {
+        if ((int) $limit) {
+            return $this->createQueryBuilder('a')
+                            ->where('a.publicate = :publicate')
+                            ->setParameter(':publicate', 1)
+                            ->orderBy('a.date', 'DESC')
+                            ->setMaxResults($limit)
                             ->getQuery()
                             ->getResult();
         }

@@ -146,9 +146,8 @@ class BlogController extends Controller {
     public function lastAction($nb = 5) {
         if ($nb) {
             $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:Article');
-            $articles = $repository->findBy(
-                    ['publicate' => true], ['date' => 'DESC'], $nb, 0
-            );
+            $articles = $repository->getLast($nb);
+
             return $this->render(
                             'blog/last.html.twig', ['articles' => $articles]);
         } else {

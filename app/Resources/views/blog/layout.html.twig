@@ -5,7 +5,7 @@
     <h5>layout::body</h5>
     <div class="row">
         <div class="col-md-8">{% block blog_body %}{% endblock %}</div>
-        <div class="col-md-4">{{ render(controller('AppBundle:Blog:Last')) }}</div>
+        <div class="col-md-4">{{ render(controller('AppBundle:Blog:Last',{nb:3})) }}</div>
     </div>
 
 {% endblock %}
