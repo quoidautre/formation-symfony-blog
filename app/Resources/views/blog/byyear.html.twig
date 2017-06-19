@@ -1,0 +1,17 @@
+{% extends ':blog:layout.html.twig' %}
+{% block title %} {{ parent() }} - Index{% endblock %}
+
+{% block blog_body %}
+<h4>Nos articles par année...</h4>
+<table class="table">
+    {% for article in articles %}
+        <tr>
+            <td>
+                <span class="label label-primary">
+
+                </span>
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock %}

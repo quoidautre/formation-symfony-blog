@@ -49,6 +49,10 @@ class ArticleRepository extends \Doctrine\ORM\EntityRepository {
         return null;
     }
 
+    /**
+     * @param int $limit
+     * @return array|null
+     */
     public function getLast($limit = 5) {
         if ((int) $limit) {
             return $this->createQueryBuilder('a')
@@ -62,4 +66,37 @@ class ArticleRepository extends \Doctrine\ORM\EntityRepository {
         return null;
     }
 
+    /**
+     * @param int $limit
+     * @return array|null
+     */
+    public function getYears($limit = 5) {
+        if ((int) $limit) {
+            return $this->createQueryBuilder('a')
+                ->select('SUBSTRING(a.date,1,4)')
+                ->distinct()
+                ->orderBy('a.date', 'DESC')
+                ->setMaxResults($limit)
+                ->getQuery()
+                ->getResult();
+        }
+        return null;
+    }
+
+    /**
+     * @param $year
+     * @param int $limit
+     * @return array|null
+     */
+    public function getByYear($year, $limit = 20) {
+        if ((int) $limit) {
+            return $this->createQueryBuilder('a')
+                ->select('a.date')
+                ->orderBy('a.date', 'DESC')
+                ->setMaxResults($limit)
+                ->getQuery()
+                ->getResult();
+        }
+        return null;
+    }
 }
