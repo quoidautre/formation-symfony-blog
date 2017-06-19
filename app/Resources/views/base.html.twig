@@ -10,15 +10,14 @@
         <link rel="icon" href="{{asset('/') ~ 'favicon.ico'}}">
         <title> {% block title %}My awesome Blog{% endblock %} </title>
 
-    {% block stylesheets %}{% endblock %}
-
+    {% block stylesheets %} {% endblock %}
     <!-- Bootstrap core CSS -->
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap theme -->
     <link href="http://getbootstrap.com/dist/css/bootstrap-theme.min.css" rel="stylesheet">
-
     <!-- Custom styles for this template -->
     <link href="{{asset('css/') ~ 'theme.css'}}" rel="stylesheet">
+
 
 </head>
 <body>

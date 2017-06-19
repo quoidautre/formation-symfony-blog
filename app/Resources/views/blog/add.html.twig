@@ -1,4 +1,7 @@
 {% extends 'blog/layout.html.twig' %}
+    {% block stylesheets %}
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    {% endblock %}
 {% block blog_body %}
 
     <h2><span class="label label-danger">blog_body::add</span></h2>
@@ -6,5 +9,19 @@
     {% include 'blog/forms.html.twig' %}
 
 {% endblock %}
-
+{% block javascripts %}
+    <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="//cdn.ckeditor.com/4.7.0/basic/ckeditor.js"></script>
+    <script language="JavaScript">
+        $(function() {
+            $( ".js-datepicker" ).datepicker(
+                {
+                    dateFormat: 'dd/mm/yy',
+                    showAnim:'drop'
+                }
+            );
+        });
+    </script>
+{% endblock %}
 
