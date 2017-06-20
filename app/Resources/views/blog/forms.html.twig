@@ -3,7 +3,7 @@
 {% for message in app.session.flashbag.get('error') %}
     <p class="alert alert-danger">{{ message }}</p>
 {% endfor %}
-
+{{ form (form,{ 'attr': {'novalidate': 'novalidate' }}) }}
 {{ form_start(form) }}
 
 {{ form_label(form.title) }}
