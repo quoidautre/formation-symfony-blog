@@ -125,12 +125,32 @@ class BlogController extends Controller
      */
     public function updateAction(Request $request, $id)
     {
-        /* echo '<pre>';
-          var_dump($request);
-          echo '</pre>';
-         */
-        // replace this example code with whatever you , need
-        return $this->render('blog/update.html.twig', ['id' => $id]);
+        $article = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('AppBundle:Article')
+            ->findOneBy(array('id' => $id));
+
+        $form = $this->createForm(ArticleType::class, $article/*, ['id' => $id]*/);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid() && $request->isMethod('POST')) {
+            $session = $this->get('session');
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($article);
+
+            try {
+                $em->flush();
+            } catch (\Exception $ex) {
+                $session->getFlashBag()->add('erreur', 'Article n\'a pas été modifié !.');
+            }
+
+            $session->getFlashBag()->add('notice', 'Article bien modifié.');
+
+            return $this->redirectToRoute('homepage_blog');
+        }
+
+        return $this->render('blog/update.html.twig', ['form' => $form->createView(),'article' => $article]);
+
     }
 
     /**
