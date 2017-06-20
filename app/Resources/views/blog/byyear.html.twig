@@ -10,7 +10,7 @@
                 <span class="label label-primary">
                     <a style="color:#fff" href="{{path('read_blog', {'id': article.id})}}">{{article.title}}</a>
                 </span>
-                <p>>> {{article.content}}</p>
+                <p>>> {{article.content | raw}}</p>
             </td>
         </tr>
     {% endfor %}

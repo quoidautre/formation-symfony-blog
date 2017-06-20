@@ -1,3 +1,5 @@
+{% form_theme form 'ckeditor.html.twig' %}
+
 {% for message in app.session.flashbag.get('error') %}
     <p class="alert alert-danger">{{ message }}</p>
 {% endfor %}

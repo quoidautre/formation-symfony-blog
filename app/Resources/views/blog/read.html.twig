@@ -8,7 +8,7 @@
             </div>
             <div class="row">
                 <div class="col-md-8"> <h2>{{article.title}}</h2>
-                    <p>{{article.content}}</p></div>
+                    <p>{{article.content|raw}}</p></div>
                 <div class="col-md-4"> 
                     {% if  article.image.url is defined %}
                         <img src="{{article.image.url}}" alt="{{article.image.alt}}" width="120" height="120">

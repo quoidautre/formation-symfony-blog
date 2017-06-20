@@ -50,11 +50,19 @@ class BlogController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid() && $request->isMethod('POST')) {
+            $session = $this->get('session');
             $em = $this->getDoctrine()->getManager();
             $em->persist($article);
-            $em->flush();
 
-            $request->getSession()->getFlashBag()->add('notice', 'Article bien enregistrée.');
+            try {
+                $em->flush();
+            } catch (\Exception $ex) {
+                $session->getFlashBag()->add('erreur', 'Article n\'est pas inséré !.');
+            }
+
+            $session->getFlashBag()->add('notice', 'Article bien enregistrée.');
+
+            return $this->redirectToRoute('read_blog', ['id' => $article->getId()]);
         }
 
         return $this->render('blog/add.html.twig', ['form' => $form->createView()]);
