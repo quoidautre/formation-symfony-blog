@@ -3,6 +3,7 @@
 namespace AppBundle\Form;
 
 
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Mapping\Entity;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -34,7 +35,11 @@ class ArticleType extends AbstractType
                 'class' => Tag::class,
                 'choice_label' => 'title',
                 'expanded' => true,
-                'multiple' => true
+                'multiple' => true,
+                'query_builder' => function (EntityRepository $er) {
+                     return $er->createQueryBuilder('tags')
+                        ->orderBy('tags.title', 'ASC');
+                },
             ])
             ->add('submit', SubmitType::class)
             ->getForm();
@@ -46,7 +51,8 @@ class ArticleType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Article'
+            'data_class' => 'AppBundle\Entity\Article',
+            'id' => 0
         ));
     }
 

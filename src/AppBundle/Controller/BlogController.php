@@ -45,7 +45,7 @@ class BlogController extends Controller
     public function addAction(Request $request)
     {
         $article = new Article();
-        $form = $this->createForm(ArticleType::class, $article);
+        $form = $this->createForm(ArticleType::class, $article, ['id' => 10]);
 
         $form->handleRequest($request);
 
