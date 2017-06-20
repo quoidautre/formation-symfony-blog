@@ -3,14 +3,10 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Article;
-use AppBundle\Entity\Image;
-use AppBundle\Entity\Comment;
-use AppBundle\Entity\Tag;
+use AppBundle\Form\ArticleType;
 use AppBundle\Repository\ArticleRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -48,58 +44,8 @@ class BlogController extends Controller
      */
     public function addAction(Request $request)
     {
-        /*$em = $this->getDoctrine()->getManager();
-        $comment1 = new Comment();
-        $comment2 = new Comment();
-        $image = new Image();
         $article = new Article();
-        $tags = new Tag();
-
-        ///////////////////
-        $image->setUrl("https://robohash.org/humanbooster" . mt_rand(5, 50))
-            ->setAlt("Mon robot #" . mt_rand(5, 50));
-
-        ///////////////////
-        $article->setTitle('mon titre #' . mt_rand(10, 50))
-            ->setContent('blablablablabla #' . mt_rand(10, 50))
-            ->setImage($image);
-
-        ///////////////////
-        $comment1->setContent("content #1");
-        $comment1->setArticle($article);
-
-        $comment2->setContent("content #2");
-        $comment2->setArticle($article);
-
-        ///////////////////
-        $tags->setTitle("php 7.0");
-        $article->addTag($tags);
-
-        //////////////////////////////////////////////////
-        $em->persist($comment1);
-        $em->persist($comment2);
-        $em->persist($article);
-        $em->flush();
-
-        // replace this example code with whatever you , need
-        $id = $article->getId();
-        $route = 'read_blog';
-        $parameters = ['id' => $id];
-
-        return $this->redirectToRoute($route, $parameters);
-        */
-        $article = new Article();
-        $form = $this->createFormBuilder($article)
-            ->add('title', null, ['label' => 'Saisissez un titre'])
-            ->add('content')
-            ->add('date',DateType::class, [
-                'format' => 'dd/MM/yyyy',
-                'widget' => 'single_text',
-                'html5'  => false])
-            ->add('publicate', null, ['required' => false])
-            ->add('submit',  SubmitType::class)
-            ->getForm()
-            ;
+        $form = $this->createForm(ArticleType::class, $article);
 
         $form->handleRequest($request);
 
@@ -239,13 +185,13 @@ class BlogController extends Controller
      */
     public function getByYear($year = null)
     {
-        if ($year) {
+        if (!empty($year)) {
             $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:Article');
             $articles = $repository->getByYear($year);
-
+            dump($articles);
             return $this->render('blog/byyear.html.twig', ['articles' => $articles]);
         } else {
-            throw new \Exception('nb a year is require!');
+            throw new \Exception('A year is require!');
         }
     }
 }

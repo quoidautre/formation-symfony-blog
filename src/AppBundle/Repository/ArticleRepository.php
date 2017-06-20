@@ -90,13 +90,40 @@ class ArticleRepository extends \Doctrine\ORM\EntityRepository {
      */
     public function getByYear($year, $limit = 20) {
         if ((int) $limit) {
+            $debut = $year . '-01-01';
+            $fin = $year . '-12-31';
             return $this->createQueryBuilder('a')
-                ->select('a.date')
+                ->where('a.date >= ?1 AND a.date<= ?2')
+                ->setParameter(1, $debut)
+                ->setParameter(2, $fin)
+                ->andWhere('a.publicate = 1')
                 ->orderBy('a.date', 'DESC')
-                ->setMaxResults($limit)
                 ->getQuery()
-                ->getResult();
+                ->getArrayResult();
         }
         return null;
+    }
+
+    /**
+     * @param $year
+     * @return array
+     */
+    public function getArticlesByYear($year) {
+        $debut = $year . '-01-01';
+        $fin = $year . '-12-31';
+        $qb = $this->createQueryBuilder('a')
+            ->leftJoin('a.image', 'i')
+            ->addSelect('i')
+            ->leftJoin('a.tags', 't')
+            ->addSelect('t')
+            ->where('a.date >= ?1 AND a.date<= ?2')
+            ->setParameter(1, $debut)
+            ->setParameter(2, $fin)
+            ->andWhere('a.publication = 1')
+            ->orderBy('a.date', 'DESC');
+
+        $query = $qb->getQuery();
+
+        return $query->getArrayResult();
     }
 }
