@@ -29,10 +29,22 @@ class Category
     private $title;
 
     /**
-     * @var product
-     * @ORM\ManyToOne(targetEntity="Product", inversedBy="$categories")
+     * @var \Doctrine\Common\Collections\ArrayCollection
+     * @ORM\ManyToMany(
+     *     targetEntity="Product",
+     *     cascade={"persist"},
+     *     mappedBy="categories")
+     * @ORM\OrderBy({"title"="ASC"})
      */
-    private $product;
+    private $products;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->products = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -69,18 +81,36 @@ class Category
     }
 
     /**
-     * @return product
+     * Add product
+     *
+     * @param \AppBundle\Entity\Product $product
+     *
+     * @return Category
      */
-    public function getProduct()
+    public function addProduct(\AppBundle\Entity\Product $product)
     {
-        return $this->product;
+        $this->products[] = $product;
+
+        return $this;
     }
 
     /**
-     * @param product $product
+     * Remove product
+     *
+     * @param \AppBundle\Entity\Product $product
      */
-    public function setProduct($product)
+    public function removeProduct(\AppBundle\Entity\Product $product)
     {
-        $this->product = $product;
+        $this->products->removeElement($product);
+    }
+
+    /**
+     * Get products
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProducts()
+    {
+        return $this->products;
     }
 }

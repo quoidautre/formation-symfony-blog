@@ -23,12 +23,12 @@
                 <td>{{ product.price }}</td>
                 <td>{% if product.createdAt %}{{ product.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>
-                    <ul>
+                    <ul class="list-inline">
                         <li>
-                            <a href="{{ path('product_show', { 'id': product.id }) }}">show</a>
+                            <a class="btn btn-primary" href="{{ path('product_show', { 'id': product.id }) }}">show</a>
                         </li>
                         <li>
-                            <a href="{{ path('product_edit', { 'id': product.id }) }}">edit</a>
+                            <a class="btn btn-primary" href="{{ path('product_edit', { 'id': product.id }) }}">edit</a>
                         </li>
                     </ul>
                 </td>
@@ -37,9 +37,9 @@
         </tbody>
     </table>
 
-    <ul>
+    <ul class="list-inline">
         <li>
-            <a class="btn btn-info" role="button" href="{{ path('product_new') }}">Create a new product</a>
+             <a class="btn btn-info" role="button" href="{{ path('product_new') }}">Create a new product</a>
         </li>
     </ul>
 {% endblock %}

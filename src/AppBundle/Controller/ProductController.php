@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Category;
 use AppBundle\Entity\Product;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -66,7 +67,6 @@ class ProductController extends Controller
     public function showAction(Product $product)
     {
         $deleteForm = $this->createDeleteForm($product);
-
         return $this->render('shop/product/show.html.twig', array(
             'product' => $product,
             'delete_form' => $deleteForm->createView(),
@@ -88,7 +88,7 @@ class ProductController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('shop/product_edit', array('id' => $product->getId()));
+            return $this->redirectToRoute('product_edit', array('id' => $product->getId()));
         }
 
         return $this->render('shop/product/edit.html.twig', array(
@@ -101,7 +101,7 @@ class ProductController extends Controller
     /**
      * Deletes a product entity.
      *
-     * @Route("/{id}", name="product_delete")
+     * @Route("/delete/{id}", name="product_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, Product $product)
@@ -128,9 +128,20 @@ class ProductController extends Controller
     private function createDeleteForm(Product $product)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('shop/product_delete', array('id' => $product->getId())))
+            ->setAction($this->generateUrl('product_delete', array('id' => $product->getId())))
             ->setMethod('DELETE')
             ->getForm()
         ;
+    }
+
+    /**
+     * @param Category $categories
+     */
+    public function categoriesAction()
+    {
+        $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:Category');
+        $categories = $repository->getAll();
+
+        return $this->render('shop/product/categories.html.twig', ['categories' => $categories]);
     }
 }

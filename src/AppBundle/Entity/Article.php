@@ -3,6 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * Article
@@ -25,6 +27,15 @@ class Article {
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
+     * @Assert\Length(
+     *      min = 5,
+     *      max = 40,
+     *      minMessage = "Your first name must be at least {{ limit }} characters long",
+     *      maxMessage = "Your first name cannot be longer than {{ limit }} characters"
+     * )
+     * @Assert\NotBlank(
+     *     message = "You must specifiy a message"
+     * )
      */
     private $title;
 
@@ -46,26 +57,29 @@ class Article {
      * @var boolean
      *
      * @ORM\Column(name="publicate", type="boolean")
+     * @Assert\Valid()
      */
     private $publicate;
 
     /**
      * @var Image
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Image", cascade={"persist","remove"})
-     * @ORM\JoinColumn(nullable=false)
      */
     private $image;
 
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
-     * @ORM\ManyToMany(targetEntity="Tag", cascade={"persist"}, inversedBy="articles")
+     * @ORM\ManyToMany(
+     *     targetEntity="Tag",
+     *     cascade={"persist"},
+     *     inversedBy="articles")
      */
     private $tags;
 
     /**
      *
      * @var \Doctrine\Common\Collections\ArrayCollection
-     * @ORM\OneToMany(targetEntity="Comment", cascade={"remove"}, mappedBy="article")
+     * @ORM\OneToMany(targetEntity="Comment", cascade={"remove","persist"}, mappedBy="article")
      */
     private $comments;
 
@@ -198,38 +212,7 @@ class Article {
         return $this->image;
     }
 
-    /**
-     * Add tag
-     *
-     * @param \AppBundle\Entity\Tag $tag
-     *
-     * @return Article
-     */
-    public function addTag(\AppBundle\Entity\Tag $tag) {
-        $this->tags[] = $tag;
-
-        return $this;
-    }
-
-    /**
-     * Remove tag
-     *
-     * @param \AppBundle\Entity\Tag $tag
-     */
-    public function removeTag(\AppBundle\Entity\Tag $tag) {
-        $this->tags->removeElement($tag);
-    }
-
-    /**
-     * Get tags
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getTags() {
-        return $this->tags;
-    }
-
-    /**
+       /**
      * Add comment
      *
      * @param \AppBundle\Entity\Comment $comment
@@ -261,5 +244,39 @@ class Article {
     public function getComments()
     {
         return $this->comments;
+    }
+
+    /**
+     * Add tag
+     *
+     * @param \AppBundle\Entity\Tag $tag
+     *
+     * @return Article
+     */
+    public function addTag(\AppBundle\Entity\Tag $tag)
+    {
+        $this->tags[] = $tag;
+
+        return $this;
+    }
+
+    /**
+     * Remove tag
+     *
+     * @param \AppBundle\Entity\Tag $tag
+     */
+    public function removeTag(\AppBundle\Entity\Tag $tag)
+    {
+        $this->tags->removeElement($tag);
+    }
+
+    /**
+     * Get tags
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTags()
+    {
+        return $this->tags;
     }
 }

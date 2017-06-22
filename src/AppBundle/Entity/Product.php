@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -51,17 +52,33 @@ class Product
 
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
-     * @ORM\OneToMany(targetEntity="Category", cascade={"persist"}, mappedBy="product")
+     * @ORM\ManyToMany(
+     *     targetEntity="Category",
+     *     cascade={"persist"},
+     *     inversedBy="products")
      */
     private $categories;
+
+    /**
+     * @var Image
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Image", cascade={"persist","remove"})
+     */
+    private $image;
+
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Product",mappedBy="product", cascade={"remove"})
+     */
+    private $star;
+
     /**
      * Constructor
      */
     public function __construct()
     {
         $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->star = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
 
     /**
      * Get id
@@ -170,22 +187,6 @@ class Product
     }
 
     /**
-     * @return mixed
-     */
-    public function getCategories()
-    {
-        return $this->categories;
-    }
-
-    /**
-     * @param mixed $categories
-     */
-    public function setCategories($categories)
-    {
-        $this->categories = $categories;
-    }
-
-    /**
      * Add category
      *
      * @param \AppBundle\Entity\Category $category
@@ -208,4 +209,74 @@ class Product
     {
         $this->categories->removeElement($category);
     }
+
+    /**
+     * Get categories
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCategories()
+    {
+        return $this->categories;
+    }
+
+    /**
+     * Set image
+     *
+     * @param \AppBundle\Entity\Image $image
+     *
+     * @return Product
+     */
+    public function setImage(\AppBundle\Entity\Image $image = null)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return \AppBundle\Entity\Image
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * Add star
+     *
+     * @param \AppBundle\Entity\Product $star
+     *
+     * @return Product
+     */
+    public function addStar(\AppBundle\Entity\Product $star)
+    {
+        $this->star[] = $star;
+
+        return $this;
+    }
+
+    /**
+     * Remove star
+     *
+     * @param \AppBundle\Entity\Product $star
+     */
+    public function removeStar(\AppBundle\Entity\Product $star)
+    {
+        $this->star->removeElement($star);
+    }
+
+    /**
+     * Get star
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getStar()
+    {
+        return $this->star;
+    }
+
+
 }

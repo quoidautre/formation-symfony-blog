@@ -1,0 +1,12 @@
+<h4>Nos catégories de produit...</h4>
+<table class="table">
+    <tr>
+        <td>
+            {% for category in categories %}
+                <span class="label label-warning">
+            <a style="color:#fff" href="{{path('product_index')}}"> {{ category.title }} </a>
+        </span>&nbsp;
+            {% endfor %}
+        </td>
+    </tr>
+</table>

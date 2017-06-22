@@ -1,12 +1,11 @@
 <?php
 namespace AppBundle\DataFixtures\ORM;
-use AppBundle\Entity\Article;
-use AppBundle\Entity\Comment;
-use AppBundle\Entity\Image;
-use AppBundle\Entity\Tag;
+
+use AppBundle\Entity\Product;
+use AppBundle\Entity\Category;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\DataFixtures\AbstractFixture;
+
 /**
  * Created by PhpStorm.
  * User: fabrice
@@ -29,16 +28,15 @@ class LoadProduct implements FixtureInterface {
                 'Le jeu de la mort',
         ];
         $nbMovies = count($title);
-
         $content = [
             '(Big Boss) Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ',
             '(La fureur de vaincre) Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ',
             '(La fureur du Dragon) Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ',
             '(Opération Dragon) Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ',
             '(Le jeu de la mort) Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ',
-  ];
-        $category = [
-             'action', 'thriller', 'violence', 'drama', 'adventure'
+        ];
+        $categories = [
+             'DVD', 'Livre', 'CD', 'eBook', 'Video'
         ];
 
         for ($item = 0 ; $item < $nbMovies ; $item++) {
@@ -51,20 +49,17 @@ class LoadProduct implements FixtureInterface {
             $product->setCreatedAt(new \DateTime());
             $product->setPrice($this->random_float(20,100));
 
-
             /// Category //////////////////////////////////////////////////////
-            $category->setTitle($content[$item]);
-            $product->setCategories();
+            $category->setTitle($categories[$item]);
+            $product->addCategory($category);
 
             ///////////////////////////////////////////////////////////
-            $manager->persist($product);
             $manager->persist($category);
+            $manager->persist($product);
 
-            unset($product,$category);
-
+            //unset($product,$category);
         }
         $manager->flush();
-
     }
 
     private function random_float ($min,$max) {
