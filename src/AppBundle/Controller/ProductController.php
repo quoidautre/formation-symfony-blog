@@ -144,4 +144,23 @@ class ProductController extends Controller
 
         return $this->render('shop/product/categories.html.twig', ['categories' => $categories]);
     }
+
+    /**
+     * @param Category $category
+     * @Route("/category/{id}", name="products_category")
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
+     */
+    public function getByCategory(Category $category)
+    {
+        if ($category) {
+            $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:Product');
+            $products = $repository->getByCategory($category);
+
+            return $this->render('/shop/product/listByCategory.html.twig', ['products' => $products]);
+        } else {
+            throw new \Exception('A Category is require!');
+        }
+    }
+
 }

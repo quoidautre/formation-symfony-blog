@@ -1,17 +1,7 @@
 {% extends ':blog:layout.html.twig' %}
 
 {% block blog_body %}
-    <h1>Products list</h1>
-
     <table class="table">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Content</th>
-                <th>Price</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
         <tbody>
         {% for product in products %}
             <tr>
@@ -32,10 +22,4 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <ul class="list-inline">
-        <li>
-             <a class="btn btn-info" role="button" href="{{ path('product_new') }}">Create a new product</a>
-        </li>
-    </ul>
 {% endblock %}
