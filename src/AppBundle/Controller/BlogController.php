@@ -339,7 +339,7 @@ class BlogController extends Controller
                 $response['message'] = $ex->getMessage();
             }
 
-            $response = new Response($response['comment']);
+            $response = new Response($finalComment);
             $response->headers->set('Content-type','application/json');
 
             return $response;

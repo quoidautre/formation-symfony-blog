@@ -11,14 +11,16 @@
 
     {{ form_start(form) }}
         <img id="loading" src="{{ asset('images/ajax-loader.gif') }}" style="display:none"/>
-        <div id="status"></div>
     {{ form_end(form) }}
 
-    <hr>
-    <table class="table">
-        <tr>
-            <td></td>
-        </tr>
+    <table class="table table-hover" id="allcomments">
+    <thead>
+    <tr>
+        <td><span class="label label-success">Commentaires</span>  <span class="badge" id="badgedNbComment"></span></td>
+    </tr>
+    </thead>
+        <tbody>
+        </tbody>
     </table>
 
 {% endblock %}
@@ -48,8 +50,19 @@
                            $('#loading').hide();
                        },
                        success: function(data) {
-                           console.log(data.content);
-                           $("#status").text(data.content);
+                           console.log(data.article.comments);
+                           if (data.article.comments) {
+                               var htmlTable;
+                               var countComment=0;
+
+                               $(data.article.comments).each(function(k,v) {
+                                   htmlTable += "<tr><td>" +  v.content + "</td></tr>";
+                                   countComment += 1;
+                               });
+                               $('#badgedNbComment').html(countComment);
+                               $("#allcomments>tbody").append(htmlTable);
+                           }
+
                            $('#appbundle_comment_Add').removeClass('disabled');
                            $('#loading').hide();
                        }
