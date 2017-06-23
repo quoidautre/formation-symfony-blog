@@ -22,7 +22,7 @@
                         {% for comment in article.comments %}
                             <tr>
                                 <td>
-                                    {{comment.content}}
+                                    {{comment.content | raw}}
                                 </td>
                             </tr>
                         {% endfor %}
@@ -50,6 +50,7 @@
                         <div class="panel-body">
                             <a href="{{path('update_blog',{'id':article.id})}}"><button type="button" class="btn btn-xs btn-primary">Modify</button></a>
                             <a href="{{path('delete_blog',{'id':article.id})}}"><button type="button" class="btn btn-xs btn-danger">Remove</button></a>
+                            <a href="{{path('article_add_comment',{'id':article.id})}}"><button type="button" class="btn btn-xs btn-info">Add comment</button></a>
                         </div>
                     </div>
 
@@ -57,5 +58,3 @@
             </div>
         </div>
     {% endblock %}
-
-

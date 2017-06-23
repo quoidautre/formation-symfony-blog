@@ -3,7 +3,9 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Article;
+use AppBundle\Entity\Comment;
 use AppBundle\Form\ArticleType;
+use AppBundle\Form\CommentType;
 use AppBundle\Repository\ArticleRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -23,6 +25,29 @@ class BlogController extends Controller
 
     }
 
+
+    /**
+     * @Route("/star", name="star_blog")
+     * @return \Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
+     */
+    public function starAction(Request $request)
+    {
+        $id= 10;
+        $article = $this->getDoctrine()
+            ->getManager()
+            ->getRepository('AppBundle:Article')
+            ->findOneBy(array('id' => $id));
+
+        $form = $this->createForm('AppBundle\Form\StarType', new Star());
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('product_index');
+        }
+        return $this->render('/shop/product/star.html.twig', ['form' => $form->createView()]);
+    }
     /**
      * @Route("/{page}", name="homepage_blog",
      * defaults={"page":1},
@@ -45,7 +70,7 @@ class BlogController extends Controller
     public function addAction(Request $request)
     {
         $article = new Article();
-        $form = $this->createForm(ArticleType::class, $article, ['id' => 10]);
+        $form = $this->createForm(ArticleType::class, $article/*, ['id' => 10]*/);
 
         $form->handleRequest($request);
 
@@ -203,7 +228,49 @@ class BlogController extends Controller
             throw new \Exception('nb result years is require!');
         }
     }
+    /**
+     * @param int $id
+     * @Route("/add/comment/{id}", name="article_add_comment"),
+     * @return ArticleRepository|\Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
+     */
+    public function addCommentsAction(Request $request, $id)
+    {
+        if ((int) $id) {
+            $comment = new Comment();
+            $article = new Article();
 
+            $em = $this->getDoctrine()->getManager();
+            $article =$em->getRepository('AppBundle:Article')
+                        ->findOneBy(array('id' => $id));
+
+            $form = $this->createForm(CommentType::class, $comment);
+
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid() && $request->isMethod('POST')) {
+                $session = $this->get('session');
+                $comment->setArticle($article);
+
+                $em->persist($comment);
+
+                try {
+                    $em->flush();
+
+                } catch (\Exception $ex) {
+                    $session->getFlashBag()->add('erreur', 'Le commentaire n\'est pas inséré !.');
+                }
+
+                $session->getFlashBag()->add('notice', 'Le commentaire bien enregistrée.');
+
+                return $this->redirectToRoute('read_blog', ['id' => $id]);
+            }
+
+            return $this->render('blog/addComment.html.twig', ['form' => $form->createView()]);
+        } else {
+            throw new \Exception('an id article is required !');
+        }
+    }
     /**
      * @Route("/articles/year/{year}", name="article_year",
      * requirements={"year": "\d+"})

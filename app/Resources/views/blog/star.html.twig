@@ -1,0 +1,7 @@
+{% for message in app.session.flashbag.get('error') %}
+    <p class="alert alert-danger">{{ message }}</p>
+{% endfor %}
+
+{{ form_start(form) }}
+
+{{ form_end(form) }}
