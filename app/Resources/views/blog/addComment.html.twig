@@ -1,0 +1,81 @@
+{% extends ':blog:layout.html.twig' %}
+    {% block stylesheets %}
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    {% endblock %}
+
+{% block blog_body %}
+
+    {% for message in app.session.flashbag.get('error') %}
+        <p class="alert alert-danger">{{ message }}</p>
+    {% endfor %}
+
+    {{ form_start(form) }}
+        <img id="loading" src="{{ asset('images/ajax-loader.gif') }}" style="display:none"/>
+    {{ form_end(form) }}
+
+    <table class="table table-hover" id="allcomments">
+    <thead>
+    <tr>
+        <td><span class="label label-success">Commentaires</span>  <span class="badge" id="badgedNbComment"></span></td>
+    </tr>
+    </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script language="JavaScript">
+        $(function() {
+
+            $("button#appbundle_comment_Add").click(
+               function(e) {
+                   e.preventDefault();
+                   $('#loading').show();
+                   $('#appbundle_comment_Add').addClass('disabled').prop('disabled');
+
+                   $.ajax({
+                       url: '{{ path('ajax_article_add_comment') }}',
+                       method: 'POST',
+                       dataType: 'json',
+                       data: {
+                           id: {{ id }},
+                           content: $('#appbundle_comment_content').val()
+                       },
+                       error: function() {
+                           alert('error');
+                           $('#appbundle_comment_Add').removeClass('disabled');
+                           $('#loading').hide();
+                       },
+                       success: function(data) {
+                           console.log(data.article.comments);
+                           if (data.article.comments) {
+                               var htmlTable;
+                               var countComment=0;
+
+                               $(data.article.comments).each(function(k,v) {
+                                   htmlTable += "<tr><td>" +  v.content + "</td></tr>";
+                                   countComment += 1;
+                               });
+                               $('#badgedNbComment').html(countComment);
+                               $("#allcomments>tbody").append(htmlTable);
+                           }
+
+                           $('#appbundle_comment_Add').removeClass('disabled');
+                           $('#loading').hide();
+                       }
+                   });
+
+
+
+                   return false;
+               }
+            );
+
+
+        });
+    </script>
+
+{% endblock %}

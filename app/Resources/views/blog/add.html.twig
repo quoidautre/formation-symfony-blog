@@ -1,7 +1,10 @@
 {% extends 'blog/layout.html.twig' %}
+    {% block stylesheets %}
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    {% endblock %}
 {% block blog_body %}
 
-    <h2><span class="label label-danger">blog_body::add</span></h2>
+    <h2><span class="label label-danger">Add</span></h2>
 
     {% include 'blog/forms.html.twig' %}
 

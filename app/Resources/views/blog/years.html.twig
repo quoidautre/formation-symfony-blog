@@ -1,0 +1,12 @@
+<h4>Nos articles par année...</h4>
+<table class="table">
+    <tr>
+        <td>
+    {% for year in years %}
+        <span class="label label-primary">
+            <a style="color:#fff" href="{{path('article_year', {'year': year[1]})}}"> {{ year[1] }} </a>
+        </span>&nbsp;
+    {% endfor %}
+        </td>
+    </tr>
+</table>

@@ -31,8 +31,7 @@ class Tag {
     /*
      * @var \Doctrine\Common\Collections\ArrayCollection
      * @ORM\ManyToMany(
-     * targetEntity="Article", 
-     * cascade={"persist"}, 
+     * targetEntity="Article", cascade={"persist"},
      * mappedBy="tags")
      * @ORM\OrderBy({"title"="ASC"})
      */
@@ -67,44 +66,6 @@ class Tag {
      */
     public function getTitle() {
         return $this->title;
-    }
-
-    /**
-     * Constructor
-     */
-    public function __construct() {
-        $this->articles = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Add article
-     *
-     * @param \AppBundle\Entity\Article $article
-     *
-     * @return Tag
-     */
-    public function addArticle(\AppBundle\Entity\Article $article) {
-        $this->articles[] = $article;
-
-        return $this;
-    }
-
-    /**
-     * Remove article
-     *
-     * @param \AppBundle\Entity\Article $article
-     */
-    public function removeArticle(\AppBundle\Entity\Article $article) {
-        $this->articles->removeElement($article);
-    }
-
-    /**
-     * Get articles
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getArticles() {
-        return $this->articles;
     }
 
 }

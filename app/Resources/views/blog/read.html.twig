@@ -8,7 +8,7 @@
             </div>
             <div class="row">
                 <div class="col-md-8"> <h2>{{article.title}}</h2>
-                    <p>{{article.content}}</p></div>
+                    <p>{{article.content|raw}}</p></div>
                 <div class="col-md-4"> 
                     {% if  article.image.url is defined %}
                         <img src="{{article.image.url}}" alt="{{article.image.alt}}" width="120" height="120">
@@ -22,7 +22,7 @@
                         {% for comment in article.comments %}
                             <tr>
                                 <td>
-                                    {{comment.content}}
+                                    {{comment.content | raw}}
                                 </td>
                             </tr>
                         {% endfor %}
@@ -34,7 +34,7 @@
                     <h3>Tags</h3>
                     {% for tags in article.tags %}
                         <span class="label label-info">
-                            <a href="{{path('article_tag_blog',{'id':tags.id})}}" style="color:#fff">{{tags.title}}</a>
+                            <a href="{{path('article_tag_blog',{'id':article.id})}}" style="color:#fff">{{tags.title}}</a>
                         </span>&nbsp;
                     {% endfor %}
                 </div>
@@ -48,8 +48,9 @@
                             <h3 class="panel-title">Actions</h3>
                         </div>
                         <div class="panel-body">
-                            <button type="button" class="btn btn-xs btn-primary">Modify</button>
+                            <a href="{{path('update_blog',{'id':article.id})}}"><button type="button" class="btn btn-xs btn-primary">Modify</button></a>
                             <a href="{{path('delete_blog',{'id':article.id})}}"><button type="button" class="btn btn-xs btn-danger">Remove</button></a>
+                            <a href="{{path('article_add_comment',{'id':article.id})}}"><button type="button" class="btn btn-xs btn-info">Add comment</button></a>
                         </div>
                     </div>
 
@@ -57,5 +58,3 @@
             </div>
         </div>
     {% endblock %}
-
-

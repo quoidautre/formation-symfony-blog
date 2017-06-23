@@ -76,7 +76,7 @@ class LoadArticle implements FixtureInterface {
             $comment2->setArticle($article);
 
             // TAG ///////////////////////////////////////////////////////////
-            $tag->setTitle($tags[mt_rand(0,count($tags)-1)]);
+            $tag->setTitle($tags[$item]);
             $article->addTag($tag);
 
             ///////////////////////////////////////////////////////////

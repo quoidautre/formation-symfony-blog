@@ -1,13 +1,33 @@
-{% extends 'base.html.twig' %}
+{% extends ':blog:layout.html.twig' %}
 
 {% block body %}
-    <div id="wrapper">
-        <div id="container">
-            <div id="welcome">
-                <h1>Update #{{id}}...</h1>
+<div id="wrapper">
+    <div id="container">
+        <div id="welcome">
+            <h1>Modify...</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-12"> <h2>{{article.title}}</h2>
+                {% include 'blog/forms.html.twig' %}
             </div>
         </div>
     </div>
+</div>
+
 {% endblock %}
 
-
+{% block javascripts %}
+    <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="//cdn.ckeditor.com/4.7.0/basic/ckeditor.js"></script>
+    <script language="JavaScript">
+        $(function() {
+            $( ".js-datepicker" ).datepicker(
+                {
+                    dateFormat: 'dd/mm/yy',
+                    showAnim:'drop'
+                }
+            );
+        });
+    </script>
+{% endblock %}
