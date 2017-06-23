@@ -9,26 +9,60 @@
         <p class="alert alert-danger">{{ message }}</p>
     {% endfor %}
 
-    {% form_theme form 'ckeditor.html.twig' %}
-    {{ form (form,{ 'attr': {'novalidate': 'novalidate' }}) }}
     {{ form_start(form) }}
-
+        <img id="loading" src="{{ asset('images/ajax-loader.gif') }}" style="display:none"/>
+        <div id="status"></div>
     {{ form_end(form) }}
+
+    <hr>
+    <table class="table">
+        <tr>
+            <td></td>
+        </tr>
+    </table>
 
 {% endblock %}
 
 {% block javascripts %}
     <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="//cdn.ckeditor.com/4.7.0/basic/ckeditor.js"></script>
     <script language="JavaScript">
         $(function() {
-            $( ".js-datepicker" ).datepicker(
-                {
-                    dateFormat: 'dd/mm/yy',
-                    showAnim:'drop'
-                }
+
+            $("button#appbundle_comment_Add").click(
+               function(e) {
+                   e.preventDefault();
+                   $('#loading').show();
+                   $('#appbundle_comment_Add').addClass('disabled').prop('disabled');
+
+                   $.ajax({
+                       url: '{{ path('ajax_article_add_comment') }}',
+                       method: 'POST',
+                       dataType: 'json',
+                       data: {
+                           id: {{ id }},
+                           content: $('#appbundle_comment_content').val()
+                       },
+                       error: function() {
+                           alert('error');
+                           $('#appbundle_comment_Add').removeClass('disabled');
+                           $('#loading').hide();
+                       },
+                       success: function(data) {
+                           console.log(data.content);
+                           $("#status").text(data.content);
+                           $('#appbundle_comment_Add').removeClass('disabled');
+                           $('#loading').hide();
+                       }
+                   });
+
+
+
+                   return false;
+               }
             );
+
+
         });
     </script>
+
 {% endblock %}

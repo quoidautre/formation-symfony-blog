@@ -7,9 +7,13 @@ use AppBundle\Entity\Comment;
 use AppBundle\Form\ArticleType;
 use AppBundle\Form\CommentType;
 use AppBundle\Repository\ArticleRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use JMS\SerializerBundle\JMSSerializerBundle;
 
 /**
  * @Route("/blog")
@@ -231,11 +235,13 @@ class BlogController extends Controller
     /**
      * @param int $id
      * @Route("/add/comment/{id}", name="article_add_comment"),
+     * requirements={"id": "\d+"})
      * @return ArticleRepository|\Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
     public function addCommentsAction(Request $request, $id)
     {
+        // * @Method({"POST"})
         if ((int) $id) {
             $comment = new Comment();
             $article = new Article();
@@ -266,7 +272,7 @@ class BlogController extends Controller
                 return $this->redirectToRoute('read_blog', ['id' => $id]);
             }
 
-            return $this->render('blog/addComment.html.twig', ['form' => $form->createView()]);
+            return $this->render('blog/addComment.html.twig', ['form' => $form->createView(), 'id' => $id]);
         } else {
             throw new \Exception('an id article is required !');
         }
@@ -288,5 +294,56 @@ class BlogController extends Controller
         } else {
             throw new \Exception('A year is require!');
         }
+    }
+
+    /**
+     * @Route("/add/comment/ajax/", name="ajax_article_add_comment"),
+     */
+    public function ajaxAddComment(Request $request)
+    {
+        if ($request->isXmlHttpRequest() && $request->isMethod('POST')) {
+            $dataJson = [
+                'id' => (int) $request->get('id'),
+                'content' => $request->get('content')
+            ];
+            $response = [];
+            $response['comment']= null;
+            $response['status'] = 'fail';
+
+            $comment = new Comment();
+            $article = new Article();
+
+            $em = $this->getDoctrine()->getManager();
+            $article = $em->getRepository('AppBundle:Article')
+                ->findOneBy(array('id' => $dataJson['id']));
+
+            $comment->setContent($dataJson['content']);
+            $comment->setArticle($article);
+
+            $em->persist($comment);
+
+            try {
+                $em->flush();
+
+                $newComment = $em->getRepository('AppBundle:Comment')
+                                 ->findOneBy(array('id' => $comment->getId()));
+
+                $serializer = \JMS\Serializer\SerializerBuilder::create()->build();
+                $finalComment = $serializer->serialize($newComment, 'json');
+
+                $response['status'] = 'success';
+                $response['message'] = "Le commentaire a bien été ajouté";
+                $response['comment'] = $finalComment;
+
+            } catch (\Exception $ex) {
+                $response['message'] = $ex->getMessage();
+            }
+
+            $response = new Response($response['comment']);
+            $response->headers->set('Content-type','application/json');
+
+            return $response;
+        }
+        return new JsonResponse('no results found', Response::HTTP_NOT_FOUND);
     }
 }
