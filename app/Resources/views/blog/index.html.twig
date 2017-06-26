@@ -2,6 +2,12 @@
 {% block title %} {{ parent() }} - Index{% endblock %}
 
 {% block blog_body %}
+    {% for message in app.session.flashbag.get('error') %}
+        <p class="alert alert-danger">{{ message }}</p>
+    {% endfor %}
+    {% for message in app.session.flashbag.get('notice') %}
+        <p class="alert alert-success">{{ message }}</p>
+    {% endfor %}
 
     <h2> <span class="label label-danger">index</span></h2>
 
@@ -22,9 +28,19 @@
         </div>
 
     {% endfor %}
-
-
+{% endblock %}
+{% block javascripts %}
+    <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script language="JavaScript">
+        $(function() {
+            if ( $('p.alert').length ) {
+                console.log("fade out....");
+                $(this).fadeOut( "slow", function() {} );
+            } else {
+                console.log("item not present !");
+            }
+        });
+    </script>
 
 {% endblock %}
-
 

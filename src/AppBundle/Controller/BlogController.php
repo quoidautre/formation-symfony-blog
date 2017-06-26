@@ -311,7 +311,7 @@ class BlogController extends Controller
             $response['status'] = 'fail';
 
             $comment = new Comment();
-            $article = new Article();
+            $newComment = null;
 
             $em = $this->getDoctrine()->getManager();
             $article = $em->getRepository('AppBundle:Article')
@@ -325,21 +325,18 @@ class BlogController extends Controller
             try {
                 $em->flush();
 
-                $newComment = $em->getRepository('AppBundle:Comment')
-                                 ->findOneBy(array('id' => $comment->getId()));
-
                 $serializer = \JMS\Serializer\SerializerBuilder::create()->build();
-                $finalComment = $serializer->serialize($newComment, 'json');
+                $newComment = $serializer->serialize($article->getComments(), 'json');
 
                 $response['status'] = 'success';
                 $response['message'] = "Le commentaire a bien été ajouté";
-                $response['comment'] = $finalComment;
+                $response['comment'] = $newComment;
 
             } catch (\Exception $ex) {
                 $response['message'] = $ex->getMessage();
             }
 
-            $response = new Response($finalComment);
+            $response = new Response($newComment);
             $response->headers->set('Content-type','application/json');
 
             return $response;
