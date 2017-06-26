@@ -199,6 +199,22 @@ class BlogController extends Controller
             throw new \Exception('id require!');
         }
     }
+    /**
+     * @Route("/article/last/ajax/", name="ajax_article_last"),
+     * @param Request $request
+     * @return ArticleRepository|\Symfony\Component\HttpFoundation\Response
+     */
+    public function lastAjaxAction($nb = 2)
+    {
+        if ($nb) {
+            $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:Article');
+            $articles = $repository->getLast($nb);
+            return $this->render(
+                'blog/last-ajax-modal.html.twig', ['articles' => $articles]);
+        } else {
+            throw new \Exception('last ajax id is require!');
+        }
+    }
 
     /**
      * @Route("/tag/articles/{id}", name="article_tag_blog",
@@ -311,6 +327,7 @@ class BlogController extends Controller
             $response['status'] = 'fail';
 
             $comment = new Comment();
+
             $newComment = null;
 
             $em = $this->getDoctrine()->getManager();

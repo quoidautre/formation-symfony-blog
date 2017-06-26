@@ -31,14 +31,38 @@
 {% endblock %}
 {% block javascripts %}
     <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script language="JavaScript">
         $(function() {
+            $('#modal-last-article').on('show.bs.modal', function (e) {
+
+                $.ajax({
+                    url: '{{ path('ajax_article_last') }}',
+                    beforeSend: function( xhr ) {
+                       console.log('beforeSend');
+                    },
+                    dataType: 'html',
+                    data: {},
+                    error: function() {
+                        alert('error');
+                    },
+                    success: function(datas) {
+                        if (datas) {
+                            $('.modal-body').append(datas);
+                        }
+                    }
+                }).done(function(msg) {
+                    console.log( "(done) Data Saved: " + msg );
+                });
+
+                console.log('show.bs.modal');
+            });
+
+            // fade out all the flash bag
             if ( $('p.alert').length ) {
-                console.log("fade out....");
                 $(this).fadeOut( "slow", function() {} );
-            } else {
-                console.log("item not present !");
             }
+
         });
     </script>
 
