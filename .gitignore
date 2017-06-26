@@ -48,7 +48,7 @@
 ### Symfony Patch ###
 /web/css/
 /web/js/
-
+/vendor/
 # End of https://www.gitignore.io/api/symfony
 
 //////////////////////////////////////////////////////////////
