@@ -56,6 +56,10 @@ class ComposerStaticInitc861a7a2eeb2b3bef9a92fc1cf364822
         array (
             'Monolog\\' => 8,
         ),
+        'K' => 
+        array (
+            'Knp\\Bundle\\PaginatorBundle\\' => 27,
+        ),
         'J' => 
         array (
             'JMS\\SerializerBundle\\' => 21,
@@ -184,6 +188,10 @@ class ComposerStaticInitc861a7a2eeb2b3bef9a92fc1cf364822
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
         ),
+        'Knp\\Bundle\\PaginatorBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/knplabs/knp-paginator-bundle',
+        ),
         'JMS\\SerializerBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/jms/serializer-bundle',
@@ -261,6 +269,13 @@ class ComposerStaticInitc861a7a2eeb2b3bef9a92fc1cf364822
             'Metadata\\' => 
             array (
                 0 => __DIR__ . '/..' . '/jms/metadata/src',
+            ),
+        ),
+        'K' => 
+        array (
+            'Knp\\Component' => 
+            array (
+                0 => __DIR__ . '/..' . '/knplabs/knp-components/src',
             ),
         ),
         'J' => 
