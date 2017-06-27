@@ -5,6 +5,13 @@ parameters:
     max: 150
 
 services:
+    app.maintenance:
+        class: AppBundle\Listener\MaintenanceListener
+        arguments:
+          $active: false
+        tags:
+          - { name: kernel.event_listener, event: kernel.request }
+
     # default configuration for services in *this* file
     _defaults:
         # automatically injects dependencies in your services
