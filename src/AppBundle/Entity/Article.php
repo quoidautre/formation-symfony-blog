@@ -92,6 +92,11 @@ class Article {
     private $comments;
 
     /**
+     *
+     */
+    private $excerpt;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -321,5 +326,21 @@ class Article {
     public function updateDateUpdated()
     {
         $this->setDateUpdated(new \DateTime());
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getExcerpt()
+    {
+        return $this->excerpt;
+    }
+
+    /**
+     * @param mixed $excerpt
+     */
+    public function setExcerpt($excerpt)
+    {
+        $this->excerpt = $excerpt;
     }
 }

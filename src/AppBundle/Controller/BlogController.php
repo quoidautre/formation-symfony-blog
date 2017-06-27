@@ -7,13 +7,13 @@ use AppBundle\Entity\Comment;
 use AppBundle\Form\ArticleType;
 use AppBundle\Form\CommentType;
 use AppBundle\Repository\ArticleRepository;
+use AppBundle\Service\Excerpt;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use JMS\SerializerBundle\JMSSerializerBundle;
 
 /**
  * @Route("/blog")
@@ -57,13 +57,17 @@ class BlogController extends Controller
      * defaults={"page":1},
      * requirements={"page": "\d+"})
      */
-    public function indexAction(Request $request, $page)
+    public function indexAction(Request $request, $page, Excerpt $excerpt)
     {
         $articles = $this->getDoctrine()
             ->getManager()
             ->getRepository('AppBundle:Article')
             ->findAll();
 
+        foreach ($articles as $article) {
+            $excerpt->setClass('toto');
+            $article->setExcerpt($excerpt->get($article));
+        }
         return $this->render('blog/index.html.twig', ['page' => $page, 'articles' => $articles]);
     }
 
