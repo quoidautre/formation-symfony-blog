@@ -29,7 +29,6 @@ class BlogController extends Controller
 
     }
 
-
     /**
      * @Route("/star", name="star_blog")
      * @return \Symfony\Component\HttpFoundation\Response
@@ -59,16 +58,30 @@ class BlogController extends Controller
      */
     public function indexAction(Request $request, $page, Excerpt $excerpt)
     {
+        $limit = $this->getParameter('max_item_per_page');
+        $offset = (int) (($page - 1 ) * $limit);
+
         $articles = $this->getDoctrine()
             ->getManager()
             ->getRepository('AppBundle:Article')
-            ->findAll();
+            ->getWithPaginator($offset, $limit);
+            // SQL SELECT ... FROM ... WHERE ... LIMIT $offset, $limit
+            //  A partir de l'enregistrement "$offset" et retourne "$limit" enregistrements
+
+        $nbPages = ceil($articles->count() / $limit);
 
         foreach ($articles as $article) {
-            $excerpt->setClass('toto');
+            $excerpt->setClass('myClass');
             $article->setExcerpt($excerpt->get($article));
         }
-        return $this->render('blog/index.html.twig', ['page' => $page, 'articles' => $articles]);
+
+        return $this->render('blog/index.html.twig', [
+            'page' => $page,
+            'articles' => $articles,
+            'nbPages' => $nbPages,
+            'next'  => $page + 1,
+            'prev'  => $page - 1
+        ]);
     }
 
     /**

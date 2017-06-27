@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * ArticleRepository
@@ -9,6 +10,35 @@ namespace AppBundle\Repository;
  * repository methods below.
  */
 class ArticleRepository extends \Doctrine\ORM\EntityRepository {
+
+
+    /**
+     * @param $limit
+     * @param $offset
+     */
+    public function getWithPaginator ($offset, $limit) {
+
+        if ((int) $limit && (int) $offset >=0 ) {
+            $qb =  $this->createQueryBuilder('a')
+                ->leftJoin('a.image', 'i')->addSelect('i')
+                ->leftJoin('a.tags', 't')->addSelect('t')
+                ->andWhere('a.publicate = :publicate')
+                ->setParameter(':publicate', 1)
+                ->orderBy('a.date', 'DESC');
+
+            // SQL ... LIMIT $offset, $limit
+            if (false === is_null($offset))
+                $qb->setFirstResult($offset);
+
+            if (false === is_null($limit))
+                $qb->setMaxResults($limit);
+
+            $query =  $qb->getQuery();
+
+            return new Paginator($query);
+        }
+        return null;
+    }
 
     /**
      * 
