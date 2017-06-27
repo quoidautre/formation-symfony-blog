@@ -17,7 +17,9 @@
             <div class="col-md-8"> 
                 <div class="well">
                     <h3 class="panel-title"><a href="{{path('read_blog', {'id': article.id})}}">{{article.title}}</a></span></h3>
-                    <p>>> {{article.excerpt|raw}}</p>
+                   {# <p>>> {{article.excerpt|raw}}</p> #}
+                    <p>{{ ExcerptTwig(article) | raw }}</p>
+                    <p>{{ article | ex | raw}}</p>
                 </div>
             </div>
             <div class="col-md-4"> 

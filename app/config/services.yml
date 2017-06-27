@@ -2,6 +2,7 @@
 # https://symfony.com/doc/current/service_container.html
 parameters:
     #parameter_name: value
+    max: 150
 
 services:
     # default configuration for services in *this* file
@@ -35,6 +36,12 @@ services:
             $maxLength: '150'
             $router: "@router"
 
+    #
+    AppBundle\Twig\ExcerptTwig:
+        arguments:
+            $maxLength: '%max%'
+            $router: "@router"
+            $next: '[...]'
     # OLD Version
     # fabrice.extrait:
     #
