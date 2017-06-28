@@ -2,10 +2,10 @@
 
 {% block blog_body %}
     <hr>
-    <a href="{{url('product_star')}}">Star</a>
+   {# <a href="{{url('product_star')}}">Star</a>#}
     <hr>
-    <h1>Products list</h1>
-
+    <h1>Products <span class="badge">{{ pagination.getTotalItemCount }}</span> list</h1>
+    {# total items count #}
     <table class="table">
         <thead>
             <tr>
@@ -16,7 +16,8 @@
             </tr>
         </thead>
         <tbody>
-        {% for product in products %}
+        {# {% for product in products %} #}
+        {% for product in pagination %}
             <tr>
                 <td>{{ product.title }}</td>
                 <td>{{ product.content }}</td>
@@ -35,6 +36,11 @@
         {% endfor %}
         </tbody>
     </table>
+
+    {# display navigation #}
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
 
     <ul class="list-inline">
         <li>

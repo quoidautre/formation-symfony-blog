@@ -23,14 +23,21 @@ class ProductController extends Controller
      * @Route("/", name="product_index")
      * @Method("GET")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-
         $products = $em->getRepository('AppBundle:Product')->findAll();
+
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $products,
+            $request->query->getInt('page', 1)/*page number*/,
+            3/*limit per page*/
+        );
 
         return $this->render('shop/product/index.html.twig', array(
             'products' => $products,
+            'pagination' => $pagination
         ));
     }
 

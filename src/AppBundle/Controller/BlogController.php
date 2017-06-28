@@ -20,7 +20,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class BlogController extends Controller
 {
-
     /**
      *
      */
@@ -28,7 +27,6 @@ class BlogController extends Controller
     {
 
     }
-
     /**
      * @Route("/star", name="star_blog")
      * @return \Symfony\Component\HttpFoundation\Response
