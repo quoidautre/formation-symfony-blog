@@ -3,15 +3,16 @@
 namespace HB\AdvertisingBundle\Controller;
 
 use HB\AdvertisingBundle\Entity\Advert;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @Route("/advertising")
+ * Advert controller.
+ *
+ * @Route("advertising")
  */
-class AdvertisingController extends Controller
+class AdvertController extends Controller
 {
     /**
      * Lists all advert entities.
@@ -25,7 +26,7 @@ class AdvertisingController extends Controller
 
         $adverts = $em->getRepository('HBAdvertisingBundle:Advert')->findAll();
 
-        return $this->render('@HBAdvertising/advertising/index.html.twig', array(
+        return $this->render('advert/index.html.twig', array(
             'adverts' => $adverts,
         ));
     }
@@ -50,7 +51,7 @@ class AdvertisingController extends Controller
             return $this->redirectToRoute('advertising_show', array('id' => $advert->getId()));
         }
 
-        return $this->render('@HBAdvertising/advertising/new.html.twig', array(
+        return $this->render('advert/new.html.twig', array(
             'advert' => $advert,
             'form' => $form->createView(),
         ));
@@ -66,7 +67,7 @@ class AdvertisingController extends Controller
     {
         $deleteForm = $this->createDeleteForm($advert);
 
-        return $this->render('@HBAdvertising/advertising/show.html.twig', array(
+        return $this->render('advert/show.html.twig', array(
             'advert' => $advert,
             'delete_form' => $deleteForm->createView(),
         ));
@@ -90,7 +91,7 @@ class AdvertisingController extends Controller
             return $this->redirectToRoute('advertising_edit', array('id' => $advert->getId()));
         }
 
-        return $this->render('@HBAdvertising/advertising/edit.html.twig', array(
+        return $this->render('advert/edit.html.twig', array(
             'advert' => $advert,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -130,6 +131,6 @@ class AdvertisingController extends Controller
             ->setAction($this->generateUrl('advertising_delete', array('id' => $advert->getId())))
             ->setMethod('DELETE')
             ->getForm()
-            ;
+        ;
     }
 }

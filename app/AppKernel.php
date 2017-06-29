@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new JMS\SerializerBundle\JMSSerializerBundle($this),
             new KnpPaginatorBundle(),
             new HB\AdvertisingBundle\HBAdvertisingBundle(),
+            new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

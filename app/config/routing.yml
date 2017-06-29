@@ -2,6 +2,10 @@ hb_advertising:
     resource: "@HBAdvertisingBundle/Resources/config/routing.yml"
     prefix:   /
 
+hb_advertising_advert:
+    resource: "@HBAdvertisingBundle/Controller/AdvertisingController.php"
+    type:     annotation
+
 app:
     resource: '@AppBundle/Controller/'
     type: annotation

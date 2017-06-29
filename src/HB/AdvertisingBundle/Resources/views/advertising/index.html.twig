@@ -1,6 +1,41 @@
-{% extends 'HBAdvertisingBundle:advertising:layout.html.twig' %}
-{% block title %} {{ parent() }} - Index(advertiding){% endblock %}
+{% extends '@HBAdvertising/advertising/layout.html.twig' %}
 
 {% block advertising_body %}
-Hello World from advertising
+    <h1>Adverts list</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Content</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for advert in adverts %}
+            <tr>
+                <td><a href="{{ path('advertising_show', { 'id': advert.id }) }}">{{ advert.id }}</a></td>
+                <td>{{ advert.title }}</td>
+                <td>{{ advert.content }}</td>
+                <td>
+                    <ul class="list-inline">
+                        <li>
+                            <a class="btn btn-primary" href="{{ path('advertising_show', { 'id': advert.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a class="btn btn-primary" href="{{ path('advertising_edit', { 'id': advert.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul class="list-inline">
+        <li>
+            <a class="btn btn-primary" href="{{ path('advertising_new') }}">Create a new advert</a>
+        </li>
+    </ul>
 {% endblock %}
