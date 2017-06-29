@@ -4,8 +4,20 @@
 
     <h5>layout::body</h5>
     <div class="row">
-        <div class="col-md-8">{% block blog_body %}{% endblock %}</div>
+        <div class="col-md-8">
+            {% block blog_body %}{% endblock %}
+            {% block fos_user_content %}{% endblock fos_user_content %}
+        </div>
         <div class="col-md-4">
+
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                Connecté en tant que <span class="label label-success">{{ app.user.username }}</span>
+                -
+                <a class="btn btn-danger btn-xs" href="{{ path('fos_user_security_logout') }}">Déconnexion</a>
+            {% else %}
+                <a class="btn btn-primary btn-xs" href="{{ path('fos_user_security_login') }}">Connexion</a>
+            {% endif %}
+
             {% include 'blog/last-ajax-modal.html.twig' %}
             {{ render(controller('AppBundle:Blog:Last',{nb:3})) }}
             {{ render(controller('AppBundle:Blog:Years',{nb:3})) }}

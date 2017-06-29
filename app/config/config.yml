@@ -94,3 +94,11 @@ knp_paginator:
     template:
         pagination: ':shop:product/paginator_bootstrap.html.twig'     # sliding pagination controls template
         sortable: 'KnpPaginatorBundle:Pagination:sortable_link.html.twig' # sort link template
+
+fos_user:
+    db_driver: orm # other valid values are 'mongodb' and 'couchdb'
+    firewall_name: main
+    user_class: AppBundle\Entity\User
+    from_email:
+        address: "%mailer_email"
+        sender_name: "%mailer_user%"

@@ -9,7 +9,10 @@ hb_advertising_advert:
 app:
     resource: '@AppBundle/Controller/'
     type: annotation
-    
+
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
 #add_blog:
 #    path:     /blog/add
 #    defaults: { _controller: AppBundle:Blog:add }
