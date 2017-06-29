@@ -12,7 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component
 /**
  * Product controller.
  *
- * @Route("/shop/product")
+ * @Route("/admin/product")
  */
 class ProductController extends Controller
 {
