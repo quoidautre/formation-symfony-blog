@@ -50,6 +50,8 @@
 /web/js/
 /vendor/
 # End of https://www.gitignore.io/api/symfony
+# vendor
+vendor/
 
 //////////////////////////////////////////////////////////////
 nbproject

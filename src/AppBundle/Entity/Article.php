@@ -9,6 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Article
  *
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Table(name="article")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ArticleRepository")
  */
@@ -54,6 +55,13 @@ class Article {
     private $date;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="date_updated", type="datetime")
+     */
+    private $dateUpdated;
+
+    /**
      * @var boolean
      *
      * @ORM\Column(name="publicate", type="boolean")
@@ -84,10 +92,18 @@ class Article {
     private $comments;
 
     /**
+     *
+     */
+    private $excerpt;
+
+    /**
      * Constructor
      */
     public function __construct() {
+
         $this->setDate(new \DateTime);
+        $this->setDateUpdated(new \DateTime);
+
         $this->setPublicate(true);
         $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
         $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
@@ -278,5 +294,53 @@ class Article {
     public function getTags()
     {
         return $this->tags;
+    }
+
+    /**
+     * Set dateUpdated
+     *
+     * @param \DateTime $dateUpdated
+     *
+     * @return Article
+     */
+    public function setDateUpdated($dateUpdated)
+    {
+        $this->dateUpdated = $dateUpdated;
+
+        return $this;
+    }
+
+    /**
+     * Get dateUpdated
+     *
+     * @return \DateTime
+     */
+    public function getDateUpdated()
+    {
+        return $this->dateUpdated;
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function updateDateUpdated()
+    {
+        $this->setDateUpdated(new \DateTime());
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getExcerpt()
+    {
+        return $this->excerpt;
+    }
+
+    /**
+     * @param mixed $excerpt
+     */
+    public function setExcerpt($excerpt)
+    {
+        $this->excerpt = $excerpt;
     }
 }

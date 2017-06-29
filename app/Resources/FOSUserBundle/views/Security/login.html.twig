@@ -1,0 +1,6 @@
+{% extends ":blog:layout.html.twig" %}
+
+{% block fos_user_content %}
+    <h5>AppBundle/FOS/Security/login</h5>
+    {{ include(':Security:login_content.html.twig') }}
+{% endblock fos_user_content %}

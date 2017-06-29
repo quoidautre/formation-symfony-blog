@@ -1,7 +1,18 @@
+hb_advertising:
+    resource: "@HBAdvertisingBundle/Resources/config/routing.yml"
+    prefix:   /
+
+hb_advertising_advert:
+    resource: "@HBAdvertisingBundle/Controller/AdvertisingController.php"
+    type:     annotation
+
 app:
     resource: '@AppBundle/Controller/'
     type: annotation
-    
+
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
 #add_blog:
 #    path:     /blog/add
 #    defaults: { _controller: AppBundle:Blog:add }

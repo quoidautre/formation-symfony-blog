@@ -1,0 +1,36 @@
+{% extends '@HBAdvertising/advertising/layout.html.twig' %}
+
+{% block advertising_body %}
+    <h1>Advert</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ advert.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ advert.title }}</td>
+            </tr>
+            <tr>
+                <th>Content</th>
+                <td>{{ advert.content }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="list-inline">
+        <li>
+            <a class="btn btn-primary" href="{{ path('advertising_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a class="btn btn-primary" href="{{ path('advertising_edit', { 'id': advert.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input class="btn btn-primary" type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

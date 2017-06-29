@@ -40,6 +40,7 @@ class ComposerStaticInitc861a7a2eeb2b3bef9a92fc1cf364822
             'Symfony\\Bridge\\PhpUnit\\' => 23,
             'Symfony\\Bridge\\Monolog\\' => 23,
             'Symfony\\Bridge\\Doctrine\\' => 24,
+            'Stof\\DoctrineExtensionsBundle\\' => 30,
             'Sensio\\Bundle\\GeneratorBundle\\' => 30,
             'Sensio\\Bundle\\FrameworkExtraBundle\\' => 35,
             'Sensio\\Bundle\\DistributionBundle\\' => 33,
@@ -56,6 +57,10 @@ class ComposerStaticInitc861a7a2eeb2b3bef9a92fc1cf364822
         array (
             'Monolog\\' => 8,
         ),
+        'K' => 
+        array (
+            'Knp\\Bundle\\PaginatorBundle\\' => 27,
+        ),
         'J' => 
         array (
             'JMS\\SerializerBundle\\' => 21,
@@ -67,6 +72,7 @@ class ComposerStaticInitc861a7a2eeb2b3bef9a92fc1cf364822
         'F' => 
         array (
             'Fig\\Link\\' => 9,
+            'FOS\\UserBundle\\' => 15,
         ),
         'D' => 
         array (
@@ -148,6 +154,10 @@ class ComposerStaticInitc861a7a2eeb2b3bef9a92fc1cf364822
         array (
             0 => __DIR__ . '/..' . '/symfony/symfony/src/Symfony/Bridge/Doctrine',
         ),
+        'Stof\\DoctrineExtensionsBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/stof/doctrine-extensions-bundle',
+        ),
         'Sensio\\Bundle\\GeneratorBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/sensio/generator-bundle',
@@ -184,6 +194,10 @@ class ComposerStaticInitc861a7a2eeb2b3bef9a92fc1cf364822
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
         ),
+        'Knp\\Bundle\\PaginatorBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/knplabs/knp-paginator-bundle',
+        ),
         'JMS\\SerializerBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/jms/serializer-bundle',
@@ -195,6 +209,10 @@ class ComposerStaticInitc861a7a2eeb2b3bef9a92fc1cf364822
         'Fig\\Link\\' => 
         array (
             0 => __DIR__ . '/..' . '/fig/link-util/src',
+        ),
+        'FOS\\UserBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/friendsofsymfony/user-bundle',
         ),
         'Doctrine\\Instantiator\\' => 
         array (
@@ -263,6 +281,13 @@ class ComposerStaticInitc861a7a2eeb2b3bef9a92fc1cf364822
                 0 => __DIR__ . '/..' . '/jms/metadata/src',
             ),
         ),
+        'K' => 
+        array (
+            'Knp\\Component' => 
+            array (
+                0 => __DIR__ . '/..' . '/knplabs/knp-components/src',
+            ),
+        ),
         'J' => 
         array (
             'JMS\\Serializer' => 
@@ -272,6 +297,13 @@ class ComposerStaticInitc861a7a2eeb2b3bef9a92fc1cf364822
             'JMS\\' => 
             array (
                 0 => __DIR__ . '/..' . '/jms/parser-lib/src',
+            ),
+        ),
+        'G' => 
+        array (
+            'Gedmo\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/gedmo/doctrine-extensions/lib',
             ),
         ),
         'D' => 
@@ -303,6 +335,13 @@ class ComposerStaticInitc861a7a2eeb2b3bef9a92fc1cf364822
             'Doctrine\\Common\\Annotations\\' => 
             array (
                 0 => __DIR__ . '/..' . '/doctrine/annotations/lib',
+            ),
+        ),
+        'B' => 
+        array (
+            'Behat\\Transliterator' => 
+            array (
+                0 => __DIR__ . '/..' . '/behat/transliterator/src',
             ),
         ),
     );

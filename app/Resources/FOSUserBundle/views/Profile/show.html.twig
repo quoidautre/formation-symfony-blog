@@ -1,0 +1,6 @@
+{% extends ":blog:layout.html.twig" %}
+
+{% block fos_user_content %}
+    <h5>AppBundle/FOS/Profile/show</h5>
+{% include "@FOSUser/Profile/show_content.html.twig" %}
+{% endblock fos_user_content %}

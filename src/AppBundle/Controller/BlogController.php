@@ -7,20 +7,19 @@ use AppBundle\Entity\Comment;
 use AppBundle\Form\ArticleType;
 use AppBundle\Form\CommentType;
 use AppBundle\Repository\ArticleRepository;
+use AppBundle\Service\Excerpt;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use JMS\SerializerBundle\JMSSerializerBundle;
 
 /**
  * @Route("/blog")
  */
 class BlogController extends Controller
 {
-
     /**
      *
      */
@@ -28,8 +27,6 @@ class BlogController extends Controller
     {
 
     }
-
-
     /**
      * @Route("/star", name="star_blog")
      * @return \Symfony\Component\HttpFoundation\Response
@@ -57,14 +54,32 @@ class BlogController extends Controller
      * defaults={"page":1},
      * requirements={"page": "\d+"})
      */
-    public function indexAction(Request $request, $page)
+    public function indexAction(Request $request, $page, Excerpt $excerpt)
     {
+        $limit = $this->getParameter('max_item_per_page');
+        $offset = (int) (($page - 1 ) * $limit);
+
         $articles = $this->getDoctrine()
             ->getManager()
             ->getRepository('AppBundle:Article')
-            ->findAll();
+            ->getWithPaginator($offset, $limit);
+            // SQL SELECT ... FROM ... WHERE ... LIMIT $offset, $limit
+            //  A partir de l'enregistrement "$offset" et retourne "$limit" enregistrements
 
-        return $this->render('blog/index.html.twig', ['page' => $page, 'articles' => $articles]);
+        $nbPages = ceil($articles->count() / $limit);
+
+        foreach ($articles as $article) {
+            $excerpt->setClass('myClass');
+            $article->setExcerpt($excerpt->get($article));
+        }
+
+        return $this->render('blog/index.html.twig', [
+            'page' => $page,
+            'articles' => $articles,
+            'nbPages' => $nbPages,
+            'next'  => $page + 1,
+            'prev'  => $page - 1
+        ]);
     }
 
     /**
@@ -199,6 +214,22 @@ class BlogController extends Controller
             throw new \Exception('id require!');
         }
     }
+    /**
+     * @Route("/article/last/ajax/", name="ajax_article_last"),
+     * @param Request $request
+     * @return ArticleRepository|\Symfony\Component\HttpFoundation\Response
+     */
+    public function lastAjaxAction($nb = 2)
+    {
+        if ($nb) {
+            $repository = $this->getDoctrine()->getManager()->getRepository('AppBundle:Article');
+            $articles = $repository->getLast($nb);
+            return $this->render(
+                'blog/last-ajax-modal.html.twig', ['articles' => $articles]);
+        } else {
+            throw new \Exception('last ajax id is require!');
+        }
+    }
 
     /**
      * @Route("/tag/articles/{id}", name="article_tag_blog",
@@ -311,7 +342,8 @@ class BlogController extends Controller
             $response['status'] = 'fail';
 
             $comment = new Comment();
-            $article = new Article();
+
+            $newComment = null;
 
             $em = $this->getDoctrine()->getManager();
             $article = $em->getRepository('AppBundle:Article')
@@ -325,21 +357,18 @@ class BlogController extends Controller
             try {
                 $em->flush();
 
-                $newComment = $em->getRepository('AppBundle:Comment')
-                                 ->findOneBy(array('id' => $comment->getId()));
-
                 $serializer = \JMS\Serializer\SerializerBuilder::create()->build();
-                $finalComment = $serializer->serialize($newComment, 'json');
+                $newComment = $serializer->serialize($article->getComments(), 'json');
 
                 $response['status'] = 'success';
                 $response['message'] = "Le commentaire a bien été ajouté";
-                $response['comment'] = $finalComment;
+                $response['comment'] = $newComment;
 
             } catch (\Exception $ex) {
                 $response['message'] = $ex->getMessage();
             }
 
-            $response = new Response($finalComment);
+            $response = new Response($newComment);
             $response->headers->set('Content-type','application/json');
 
             return $response;

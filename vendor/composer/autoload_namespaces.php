@@ -11,8 +11,10 @@ return array(
     'PhpOption\\' => array($vendorDir . '/phpoption/phpoption/src'),
     'PhpCollection' => array($vendorDir . '/phpcollection/phpcollection/src'),
     'Metadata\\' => array($vendorDir . '/jms/metadata/src'),
+    'Knp\\Component' => array($vendorDir . '/knplabs/knp-components/src'),
     'JMS\\Serializer' => array($vendorDir . '/jms/serializer/src'),
     'JMS\\' => array($vendorDir . '/jms/parser-lib/src'),
+    'Gedmo\\' => array($vendorDir . '/gedmo/doctrine-extensions/lib'),
     'Doctrine\\ORM\\' => array($vendorDir . '/doctrine/orm/lib'),
     'Doctrine\\DBAL\\' => array($vendorDir . '/doctrine/dbal/lib'),
     'Doctrine\\Common\\Lexer\\' => array($vendorDir . '/doctrine/lexer/lib'),
@@ -20,4 +22,5 @@ return array(
     'Doctrine\\Common\\DataFixtures' => array($vendorDir . '/doctrine/data-fixtures/lib'),
     'Doctrine\\Common\\Collections\\' => array($vendorDir . '/doctrine/collections/lib'),
     'Doctrine\\Common\\Annotations\\' => array($vendorDir . '/doctrine/annotations/lib'),
+    'Behat\\Transliterator' => array($vendorDir . '/behat/transliterator/src'),
 );
