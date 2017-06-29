@@ -7,16 +7,15 @@
     <h1>Products <span class="badge">{{ pagination.getTotalItemCount }}</span> list</h1>
     {# total items count #}
     <table class="table">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Content</th>
-                <th>Price</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
+
         <tbody>
         {# {% for product in products %} #}
+        <tr>
+            {# sorting of properties based on query components #}
+            <th>{{ knp_pagination_sortable(pagination, 'Title', 'product.title') }}</th>
+            <th{% if pagination.isSorted('product.content') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Content', 'product.content') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'price', ['product.price']) }}</th>
+        </tr>
         {% for product in pagination %}
             <tr>
                 <td>{{ product.title }}</td>
