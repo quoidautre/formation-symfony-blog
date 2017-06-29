@@ -56,14 +56,6 @@ doctrine:
                 user: '%database_user%'
                 password: '%database_password%'
                 charset: UTF8
-            advertising:
-                driver: pdo_mysql
-                host: '%database_advertising_host%'
-                port: '%database_advertising_port%'
-                dbname: '%database_advertising_name%'
-                user: '%database_advertising_user%'
-                password: '%database_advertising_password%'
-                charset: UTF8
 
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
