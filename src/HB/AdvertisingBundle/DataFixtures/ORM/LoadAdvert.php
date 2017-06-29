@@ -4,6 +4,7 @@ namespace HB\Advertising\DataFixtures\ORM;
 use HB\AdvertisingBundle\Entity\Advert;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use HB\AdvertisingBundle\Entity\Advert_Image;
 
 /**
  * Created by PhpStorm.
@@ -36,10 +37,17 @@ class LoadAdvert implements FixtureInterface {
 
         for ($item = 0 ; $item < $nbAdvert ; $item++) {
             $advert = new Advert();
+            $image = new Advert_Image();
 
             // ADVERT /////////////////////////////////////////////////////////
             $advert->setTitle($title[$item]);
             $advert->setContent($content[$item]);
+
+            // IMAGE /////////////////////////////////////////////////////////
+            $image->setUrl('https://loremflickr.com/320/240');
+            $image->setAlt(str_replace(' ','-', $title[$item]));
+
+            $advert->setImage($image);
 
             $manager->persist($advert);
 

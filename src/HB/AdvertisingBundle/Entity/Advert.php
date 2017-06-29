@@ -3,7 +3,7 @@
 namespace HB\AdvertisingBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+    //php bin/console doctrine:generate:entity -entity=HBAdvertisingBundle
 /**
  * Advert
  *
@@ -35,6 +35,11 @@ class Advert
      */
     private $content;
 
+    /**
+     * @var
+     * @ORM\OneToOne(targetEntity="HB\AdvertisingBundle\Entity\Advert_Image", cascade={"persist","remove"})
+     */
+    private $image;
 
     /**
      * Get id
@@ -93,5 +98,28 @@ class Advert
     {
         return $this->content;
     }
-}
 
+    /**
+     * Set image
+     *
+     * @param \HB\AdvertisingBundle\Entity\Advert_Image $image
+     *
+     * @return Advert
+     */
+    public function setImage(\HB\AdvertisingBundle\Entity\Advert_Image $image = null)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return \HB\AdvertisingBundle\Entity\Advert_Image
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+}
