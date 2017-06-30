@@ -13,9 +13,9 @@
             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                 Connecté en tant que <span class="label label-success">{{ app.user.username }}</span>
                 -
-                <a class="btn btn-danger btn-xs" href="{{ path('fos_user_security_logout') }}">Déconnexion</a>
+                <a class="btn btn-danger" href="{{ path('fos_user_security_logout') }}">Déconnexion</a>
             {% else %}
-                <a class="btn btn-primary btn-xs" href="{{ path('fos_user_security_login') }}">Connexion</a>
+                <a class="btn btn-primary" href="{{ path('fos_user_security_login') }}">Connexion</a>
             {% endif %}
 
             {% include 'blog/last-ajax-modal.html.twig' %}
