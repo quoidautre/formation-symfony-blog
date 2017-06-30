@@ -24,6 +24,7 @@
                                 <td>
                                     {{comment.content | raw}}
                                 </td>
+                                <td><span class="label label-info">{{ comment.user | capitalize }}</span></td>
                             </tr>
                         {% endfor %}
                     </table>
@@ -48,13 +49,23 @@
                             <h3 class="panel-title">Actions</h3>
                         </div>
                         <div class="panel-body">
-                            <a href="{{path('update_blog',{'id':article.id})}}"><button type="button" class="btn btn-xs btn-primary">Modify</button></a>
-                            <a href="{{path('delete_blog',{'id':article.id})}}"><button type="button" class="btn btn-xs btn-danger">Remove</button></a>
-                            <a href="{{path('article_add_comment',{'id':article.id})}}"><button type="button" class="btn btn-xs btn-info">Add comment</button></a>
+
+                            <!-- si super admin ou proprio de l'article et est admin -->
+                            {% if is_granted("ROLE_SUPER_ADMIN") or app.user == article.user %}
+                                <a href="{{path('update_blog',{'id':article.id})}}"><button type="button" class="btn btn-xs btn-primary">Modify</button></a>
+                                <a href="{{path('delete_blog',{'id':article.id})}}"><button type="button" class="btn btn-xs btn-danger">Remove</button></a>
+                            {% endif %}
+
+                            {% if is_granted("ROLE_SUPER_ADMIN") %}
+                             <a href="{{path('article_add_comment',{'id':article.id})}}"><button type="button" class="btn btn-xs btn-info">Add comment</button></a>
+                            {% endif %}
                         </div>
                     </div>
 
                 </div>
             </div>
         </div>
+        {{ dump(article) }}
+        {{ dump(app.user) }}
+        {{ dump(article.user) }}
     {% endblock %}

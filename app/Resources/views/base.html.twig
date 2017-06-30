@@ -36,10 +36,19 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="{{path('homepage_blog')}}">Home</a></li>
-                <li><a href="{{url('add_blog')}}">Add</a></li>
+                {% if is_granted("ROLE_ADMIN") %}<li><a href="{{url('add_blog')}}">Add</a></li>{% endif %}
                 <li><a href="{{url('product_index')}}">Shop</a></li>
                 <li><a href="{{path('hb_advertising_homepage')}}">Advertising</a></li>
             </ul>
+
+            {% if is_granted("IS_AUTHENTICATED_FULLY") %}
+                Connecté en tant que <span class="label label-success">{{ app.user.username }}</span>
+                -
+                <a class="btn btn-danger btn-xs" href="{{ path('fos_user_security_logout') }}">Déconnexion</a>
+            {% else %}
+                <a class="btn btn-primary btn-xs" href="{{ path('fos_user_security_login') }}">Connexion</a>
+            {% endif %}
+
         </div><!--/.nav-collapse -->
     </div>
 </nav>

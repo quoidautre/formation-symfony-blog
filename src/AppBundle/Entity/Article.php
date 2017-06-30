@@ -97,6 +97,11 @@ class Article {
     private $excerpt;
 
     /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="user"),
+     */
+    private $user;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -342,5 +347,39 @@ class Article {
     public function setExcerpt($excerpt)
     {
         $this->excerpt = $excerpt;
+    }
+
+    /**
+     * Add user
+     *
+     * @param \AppBundle\Entity\Comment $user
+     *
+     * @return Article
+     */
+    public function addUser(\AppBundle\Entity\Comment $user)
+    {
+        $this->user[] = $user;
+
+        return $this;
+    }
+
+    /**
+     * Remove user
+     *
+     * @param \AppBundle\Entity\Comment $user
+     */
+    public function removeUser(\AppBundle\Entity\Comment $user)
+    {
+        $this->user->removeElement($user);
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

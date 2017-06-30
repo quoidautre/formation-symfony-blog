@@ -22,9 +22,11 @@
                 </div>
             </div>
             <div class="col-md-4">
+                {#
                 {% if  article.image.url is defined %}
                     <img src="{{article.image.url}}" alt="{{article.image.alt}}" width="50" height="50">
                 {% endif %}
+                #}
             </div>
         </div>
 
