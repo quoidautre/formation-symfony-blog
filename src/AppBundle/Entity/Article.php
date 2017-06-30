@@ -96,10 +96,10 @@ class Article {
      */
     private $excerpt;
 
-    /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="user"),
-     */
-    private $user;
+        /**
+         * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="user"),
+         */
+        private $user;
 
     /**
      * Constructor
