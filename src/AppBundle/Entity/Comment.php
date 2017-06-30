@@ -42,6 +42,11 @@ class Comment {
      */
     private $article;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User"),
+     */
+    private $user;
+
     public function __construct() {
         $this->setDate(new \DateTime);
     }
@@ -121,4 +126,28 @@ class Comment {
         return $this->article;
     }
 
+
+    /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return Comment
+     */
+    public function setUser(\AppBundle\Entity\User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
 }

@@ -5,6 +5,7 @@ namespace HB\AdvertisingBundle\Controller;
 use HB\AdvertisingBundle\Entity\Advert;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -14,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 class AdvertisingController extends Controller
 {
     /**
+     * @Security("has_role('ROLE_ADMIN')")
      * Lists all advert entities.
      *
      * @Route("/", name="advertising_index")

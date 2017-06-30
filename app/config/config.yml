@@ -102,3 +102,9 @@ fos_user:
     from_email:
         address: "%mailer_email"
         sender_name: "%mailer_user%"
+
+    registration:
+        form:
+            type: AppBundle\Form\RegistrationType
+              # if you are using Symfony < 2.8 you should use the type name instead
+              # type: app_user_registration

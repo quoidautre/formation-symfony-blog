@@ -8,12 +8,15 @@ use AppBundle\Form\ArticleType;
 use AppBundle\Form\CommentType;
 use AppBundle\Repository\ArticleRepository;
 use AppBundle\Service\Excerpt;
+use FOS\UserBundle\Model\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use \JMS\Serializer\SerializerBuilder;
 
 /**
  * @Route("/blog")
@@ -142,13 +145,15 @@ class BlogController extends Controller
     }
 
     /**
+     * @Security("is_granted('ROLE_SUPER_ADMIN') or user == article.getUser()")
      * @Route("/read/{id}", name="read_blog")
      * requirements={"id": "\d+"})
      * @return ArticleRepository|\Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function readAction(Request $request, $id)
+    public function readAction(Request $request, $id, Article $article)
     {
+       // $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN',null,'Accès non autorisé');
         if ($id) {
             $article = $this->getDoctrine()
                 ->getManager()
@@ -273,13 +278,13 @@ class BlogController extends Controller
     public function addCommentsAction(Request $request, $id)
     {
         // * @Method({"POST"})
-        if ((int) $id) {
+        if ((int)$id) {
             $comment = new Comment();
             $article = new Article();
 
             $em = $this->getDoctrine()->getManager();
-            $article =$em->getRepository('AppBundle:Article')
-                        ->findOneBy(array('id' => $id));
+            $article = $em->getRepository('AppBundle:Article')
+                ->findOneBy(array('id' => $id));
 
             $form = $this->createForm(CommentType::class, $comment);
 
@@ -303,11 +308,15 @@ class BlogController extends Controller
                 return $this->redirectToRoute('read_blog', ['id' => $id]);
             }
 
-            return $this->render('blog/addComment.html.twig', ['form' => $form->createView(), 'id' => $id]);
+            return $this->render('blog/addComment.html.twig', [
+                'form' => $form->createView(),
+                'id' => $id
+            ]);
+
         } else {
             throw new \Exception('an id article is required !');
         }
-    }
+   }
     /**
      * @Route("/articles/year/{year}", name="article_year",
      * requirements={"year": "\d+"})
@@ -351,6 +360,13 @@ class BlogController extends Controller
 
             $comment->setContent($dataJson['content']);
             $comment->setArticle($article);
+/*
+            $serializer = \JMS\Serializer\SerializerBuilder::create()->build();
+            $myUser= $serializer->deserialize($dataJson['user'], User::class,'json');
+*/
+            $myUser = $this->getUser();
+
+            $comment->setUser($myUser);
 
             $em->persist($comment);
 
