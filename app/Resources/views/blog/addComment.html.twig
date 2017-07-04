@@ -10,8 +10,12 @@
     {% endfor %}
 
     {{ form_start(form) }}
-        <img id="loading" src="{{ asset('images/ajax-loader.gif') }}" style="display:none"/>
     {{ form_end(form) }}
+
+    <div id="returned">
+        <img id="loading" src="{{ asset('images/ajax-loader.gif') }}" style="display:none"/>
+    </div>
+
 
     <table class="table table-hover" id="allcomments">
     <thead>
@@ -33,16 +37,22 @@
                function(e) {
                    e.preventDefault();
                    var $loading = $('#loading');
+                   var $responseHTML = $('#returned');
                    var $buttonAdd = $('#appbundle_comment_Add');
                    var $inputComment = $('#appbundle_comment_content');
 
-                   $loading.show();
+
                    $buttonAdd.addClass('disabled').prop('disabled');
 
                    $.ajax({
                        url: '{{ path('ajax_article_add_comment') }}',
                        method: 'POST',
                        dataType: 'json',
+                       beforeSend: function() {
+                           $loading.fadeIn();
+                           $responseHTML.fadeIn();
+                           $('#returned').append('en charge .....')
+                       },
                        data: {
                            id: {{ id }},
                            content: $inputComment.val()
@@ -54,9 +64,9 @@
                        },
                        success: function(datas) {
                            if (datas) {
+                               console.log(datas);
                                var htmlTable;
                                var countComment=0;
-
                                $(datas).each(function(k,v) {
                                    htmlTable += "<tr><td>" +  v.content + "</td></tr>";
                                    countComment += 1;
@@ -67,7 +77,8 @@
                            }
 
                             $buttonAdd.removeClass('disabled');
-                            $loading.hide();
+                            $loading.fadeOut();
+                            $responseHTML.fadeOut();
                        }
                    });
                    return false;

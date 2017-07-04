@@ -9,6 +9,7 @@ use AppBundle\Form\CommentType;
 use AppBundle\Repository\ArticleRepository;
 use AppBundle\Service\Excerpt;
 use FOS\UserBundle\Model\User;
+use function json_encode;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -59,6 +60,9 @@ class BlogController extends Controller
      */
     public function indexAction(Request $request, $page, Excerpt $excerpt)
     {
+        if ($page < 1) {
+            throw new NotFoundHttpException('Page "'.$page.'" inexistante.');
+        }
         $limit = $this->getParameter('max_item_per_page');
         $offset = (int) (($page - 1 ) * $limit);
 
@@ -347,7 +351,7 @@ class BlogController extends Controller
                 'content' => $request->get('content')
             ];
             $response = [];
-            $response['comment']= null;
+            $response['comments']= null;
             $response['status'] = 'fail';
 
             $comment = new Comment();
@@ -374,17 +378,16 @@ class BlogController extends Controller
                 $em->flush();
 
                 $serializer = \JMS\Serializer\SerializerBuilder::create()->build();
-                $newComment = $serializer->serialize($article->getComments(), 'json');
 
                 $response['status'] = 'success';
                 $response['message'] = "Le commentaire a bien été ajouté";
-                $response['comment'] = $newComment;
+                $response['comments'] = $serializer->serialize($article->getComments(), 'json') ;
 
             } catch (\Exception $ex) {
                 $response['message'] = $ex->getMessage();
             }
 
-            $response = new Response($newComment);
+            $response = new Response($response['comments']);
             $response->headers->set('Content-type','application/json');
 
             return $response;

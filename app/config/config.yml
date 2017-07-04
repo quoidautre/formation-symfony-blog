@@ -37,6 +37,8 @@ framework:
 
 # Twig Configuration
 twig:
+    globals:
+      my_secret: '%secret%'
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     form_themes:

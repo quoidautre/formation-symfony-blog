@@ -9,6 +9,7 @@ hb_advertising_advert:
 app:
     resource: '@AppBundle/Controller/'
     type: annotation
+    #prefix: /blog
 
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
