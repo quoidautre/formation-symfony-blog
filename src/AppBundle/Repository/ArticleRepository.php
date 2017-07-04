@@ -156,4 +156,24 @@ class ArticleRepository extends \Doctrine\ORM\EntityRepository {
 
         return $query->getArrayResult();
     }
+
+
+    /**
+     * @param $slug
+     * @return mixed|null
+     */
+    public function getBySlug($slug) {
+        if ($slug) {
+            return $this->createQueryBuilder('a')
+                ->leftJoin('a.image', 'i')->addSelect('i')
+                ->leftJoin('a.comments', 'c')->addSelect('c')
+                ->leftJoin('a.tags', 't')->addSelect('t')
+                ->where('a.slug = :slug')
+                ->setParameter(':slug', $slug)
+                ->orderBy('a.date', 'DESC')
+                ->getQuery()
+                ->getOneOrNullResult() ;
+        }
+        return null;
+    }
 }

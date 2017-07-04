@@ -150,20 +150,22 @@ class BlogController extends Controller
 
     /**
      * @Security("is_granted('ROLE_SUPER_ADMIN') or user == article.getUser()")
-     * @Route("/read/{id}", name="read_blog")
-     * requirements={"id": "\d+"})
+     * @Route("/{slug}", name="read_blog")
+     * requirements={"slug": "[a-zA-Z0-9-]"})
      * @return ArticleRepository|\Symfony\Component\HttpFoundation\Response
      * @throws \Exception
      */
-    public function readAction(Request $request, $id, Article $article)
+    public function readAction(Request $request, $slug, Article $article)
     {
        // $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN',null,'Accès non autorisé');
-        if ($id) {
+        if ($slug) {
             $article = $this->getDoctrine()
                 ->getManager()
                 ->getRepository('AppBundle:Article')
-                ->getById($id);
+                ->getBySlug($slug)
+            ;
 
+          //  dump($article);
             return $this->render(
                 'blog/read.html.twig', ['article' => $article]);
         } else {

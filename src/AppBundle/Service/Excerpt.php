@@ -30,7 +30,8 @@ class Excerpt
 
         if (mb_strlen($this->txtExcerpt) >= $this->limitExcerpt) {
             $this->txtExcerpt = substr($this->txtExcerpt, 0, $this->limitExcerpt);
-            $urlRoute = $this->getGeneratedRoute('read_blog',$article->getId());
+         //   $urlRoute = $this->getGeneratedRoute('read_blog',$article->getId());
+            $urlRoute = $this->getGeneratedRoute('read_blog',$article->getSlug());
             $this->txtExcerpt .= ' ['. '<a class="'.$this->getClass().'" href="'.$urlRoute.'">Voir la suite</a>]';
         }
 
@@ -44,8 +45,8 @@ class Excerpt
      * @param $id
      * @return mixed
      */
-    public function getGeneratedRoute($name, $id) {
-       return $this->route->generate($name,['id' => $id]);
+    public function getGeneratedRoute($name, $slug) {
+       return $this->route->generate($name,['slug' => $slug]);
     }
 
     public function getClass() {

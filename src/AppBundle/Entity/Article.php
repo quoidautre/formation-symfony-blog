@@ -4,7 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Article
@@ -96,10 +96,16 @@ class Article {
      */
     private $excerpt;
 
-        /**
+    /**
          * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="user"),
          */
-        private $user;
+    private $user;
+
+    /**
+     * @Gedmo\Slug(fields={"title", "id"})
+     * @ORM\Column(length=128, unique=true)
+     */
+    private $slug;
 
     /**
      * Constructor
@@ -114,14 +120,6 @@ class Article {
         $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-    /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId() {
-        return $this->id;
-    }
 
     /**
      * Set title
@@ -381,5 +379,39 @@ class Article {
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     *
+     * @return Article
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 }

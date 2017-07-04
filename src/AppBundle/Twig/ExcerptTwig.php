@@ -29,7 +29,8 @@ class ExcerptTwig extends \Twig_Extension
 
         if (mb_strlen($this->txtExcerpt) >= $this->limitExcerpt) {
             $this->txtExcerpt = substr($this->txtExcerpt, 0, $this->limitExcerpt);
-            $urlRoute = $this->getGeneratedRoute('read_blog',$article->getId());
+            //$urlRoute = $this->getGeneratedRoute('read_blog',$article->getId());
+            $urlRoute = $this->getGeneratedRoute('read_blog',$article->getSlug());
             $this->txtExcerpt .= '&nbsp;<a class="'.$this->getClass().'" href="'.$urlRoute.'">'.$this->next.'</a>';
         }
 
@@ -62,8 +63,8 @@ class ExcerptTwig extends \Twig_Extension
      * @param $id
      * @return mixed
      */
-    public function getGeneratedRoute($name, $id) {
-       return $this->route->generate($name,['id' => $id]);
+    public function getGeneratedRoute($name, $slug) {
+       return $this->route->generate($name,['slug' => $slug]);
     }
 
     public function getClass() {
