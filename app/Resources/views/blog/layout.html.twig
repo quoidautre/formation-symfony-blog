@@ -9,7 +9,6 @@
             {% block fos_user_content %}{% endblock fos_user_content %}
         </div>
         <div class="col-md-4">
-
             {% include 'blog/last-ajax-modal.html.twig' %}
             {{ render(controller('AppBundle:Blog:Last',{nb:3})) }}
             {{ render(controller('AppBundle:Blog:Years',{nb:3})) }}

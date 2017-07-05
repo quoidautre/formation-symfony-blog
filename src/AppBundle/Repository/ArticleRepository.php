@@ -16,7 +16,7 @@ class ArticleRepository extends \Doctrine\ORM\EntityRepository {
      * @param $limit
      * @param $offset
      */
-    public function getWithPaginator ($offset, $limit) {
+    public function getWithPaginator ($offset, $limit, $locale) {
 
         if ((int) $limit && (int) $offset >=0 ) {
             $qb =  $this->createQueryBuilder('a')
@@ -34,6 +34,14 @@ class ArticleRepository extends \Doctrine\ORM\EntityRepository {
                 $qb->setMaxResults($limit);
 
             $query =  $qb->getQuery();
+            $query->setHint(
+                \Gedmo\Translatable\TranslatableListener::HINT_INNER_JOIN,
+                true // take locale from session or request etc.
+            );
+            $query->setHint(
+                \Gedmo\Translatable\TranslatableListener::HINT_TRANSLATABLE_LOCALE,
+                $locale // take locale from session or request etc.
+            );
 
             return new Paginator($query);
         }

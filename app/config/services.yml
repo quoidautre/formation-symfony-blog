@@ -5,6 +5,11 @@ parameters:
     max: 150
 
 services:
+    twig.extension.intl:
+        class: Twig_Extensions_Extension_Intl
+        tags:
+            - { name: twig.extension }
+
     app.maintenance:
         class: AppBundle\Listener\MaintenanceListener
         arguments:

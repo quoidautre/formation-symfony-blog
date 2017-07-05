@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Translatable\Translatable;
 
 /**
  * Article
@@ -12,8 +13,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\HasLifecycleCallbacks()
  * @ORM\Table(name="article")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ArticleRepository")
+ * @Gedmo\TranslationEntity(class="AppBundle\Entity\ArticleTranslation")
  */
-class Article {
+class Article implements Translatable {
 
     /**
      * @var int
@@ -28,6 +30,7 @@ class Article {
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
+     * @Gedmo\Translatable
      * @Assert\Length(
      *      min = 5,
      *      max = 40,
@@ -44,6 +47,7 @@ class Article {
      * @var string
      *
      * @ORM\Column(name="content", type="text")
+     * @Gedmo\Translatable
      */
     private $content;
 
@@ -108,6 +112,21 @@ class Article {
     private $slug;
 
     /**
+     * @Gedmo\Locale
+     * Used locale to override Translation listener`s locale
+     * this is not a mapped field of entity metadata, just a simple property
+     */
+    private $locale;
+
+    /**
+     * @ORM\OneToMany(
+     *   targetEntity="AppBundle\Entity\ArticleTranslation",
+     *   mappedBy="object",
+     *   cascade={"persist", "remove"}
+     * )
+     */
+    private $translations;
+    /**
      * Constructor
      */
     public function __construct() {
@@ -118,8 +137,21 @@ class Article {
         $this->setPublicate(true);
         $this->tags = new \Doctrine\Common\Collections\ArrayCollection();
         $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->translations = new \Doctrine\Common\Collections\ArrayCollection();
+
+    }
+    public function getTranslations()
+    {
+        return $this->translations;
     }
 
+    public function addTranslation(CategoryTranslation $t)
+    {
+        if (!$this->translations->contains($t)) {
+            $this->translations[] = $t;
+            $t->setObject($this);
+        }
+    }
 
     /**
      * Set title
@@ -413,5 +445,13 @@ class Article {
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * @param $locale
+     */
+    public function setTranslatableLocale($locale)
+    {
+        $this->locale = $locale;
     }
 }

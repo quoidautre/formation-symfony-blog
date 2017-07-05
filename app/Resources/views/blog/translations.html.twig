@@ -1,0 +1,26 @@
+{% extends ':blog:layout.html.twig' %}
+
+{% block blog_body %}
+    <div class="blog-post">
+        <article>
+            <p><{{ 'message' | trans }}/p>
+            <p>{{ 'texte.hello' | trans }}</p>
+
+            {% if app.user %}
+                <p>{{ 'texte.ciao' | trans({'%nom%': app.user.username}) }}</p>
+            {% endif     %}
+
+            <p>{{ 'texte.pluriel' | transchoice(17) }}</p>
+
+
+            {{myDate|localizeddate('long', 'none', 'fr') }}
+
+        </article>
+        <footer>
+            <a href="{{ path('trad_blog',{_locale: 'fr'}) }}">FR</a> |
+            <a href="{{ path('trad_blog',{_locale: 'en'}) }}">EN</a>
+        </footer>
+    </div>
+{% endblock %}
+
+

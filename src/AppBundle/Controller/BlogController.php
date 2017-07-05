@@ -17,7 +17,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 
 /**
- * @Route("/blog")
+ * @Route("/{_locale}/blog", defaults={"_locale": "fr"},
+ *     requirements={"_locale": "fr|en"})
  */
 class BlogController extends Controller
 {
@@ -66,13 +67,13 @@ class BlogController extends Controller
         $articles = $this->getDoctrine()
             ->getManager()
             ->getRepository('AppBundle:Article')
-            ->getWithPaginator($offset, $limit);
+            ->getWithPaginator($offset, $limit, $request->getLocale());
             // SQL SELECT ... FROM ... WHERE ... LIMIT $offset, $limit
             //  A partir de l'enregistrement "$offset" et retourne "$limit" enregistrements
 
         $nbPages = ceil($articles->count() / $limit);
 
-        foreach ($articles as $article) {
+       foreach ($articles as $article) {
             $excerpt->setClass('myClass');
             $article->setExcerpt($excerpt->get($article));
         }
@@ -103,9 +104,8 @@ class BlogController extends Controller
             ////////////////////////////////////////
             $image = $article->getImage();
 
-            if ($image) {
+            if ($image->getUrl()) {
                // dump($request->files);
-
                 if ($url = $request->files->get($form->getName())['image']['url']) {
                     $image->setUrl($url);
                 }
@@ -151,7 +151,7 @@ class BlogController extends Controller
                 }
 
                 $em->remove($article);
-                // remove image ! 
+                // remove image !
                 $em->flush();
                 $typeAlert = 'success';
                 $session->getFlashBag()->add('messageremovearticle', 'Article succefully remove.');
@@ -166,30 +166,6 @@ class BlogController extends Controller
         }
     }
 
-    /**
-     * @Security("is_granted('ROLE_SUPER_ADMIN') or user == article.getUser()")
-     * @Route("/{slug}", name="read_blog")
-     * requirements={"slug": "[a-zA-Z0-9-]"})
-     * @return ArticleRepository|\Symfony\Component\HttpFoundation\Response
-     * @throws \Exception
-     */
-    public function readAction(Request $request, $slug, Article $article)
-    {
-       // $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN',null,'Accès non autorisé');
-        if ($slug) {
-            $article = $this->getDoctrine()
-                ->getManager()
-                ->getRepository('AppBundle:Article')
-                ->getBySlug($slug)
-            ;
-
-          //  dump($article);
-            return $this->render(
-                'blog/read.html.twig', ['article' => $article]);
-        } else {
-            throw new \Exception('id require!');
-        }
-    }
 
     /**
      * @Route("/update/{id}", name="update_blog",
@@ -414,4 +390,38 @@ class BlogController extends Controller
         }
         return new JsonResponse('no results found', Response::HTTP_NOT_FOUND);
     }
+    /**
+     * @Route("/lost-in-translation", name="trad_blog"),
+     */
+    public function translateAction(Request $request)
+    {
+        return $this->render('blog/translations.html.twig', ['myDate' => new \DateTime()]);
+    }
+
+    /**
+     * @Security("is_granted('ROLE_SUPER_ADMIN') or user == article.getUser()")
+     * @Route("/article/{slug}", name="read_blog")
+     * requirements={"slug": "[a-zA-Z0-9-]"})
+     * @return ArticleRepository|\Symfony\Component\HttpFoundation\Response
+     * @throws \Exception
+     */
+    public function readAction(Request $request, $slug, Article $article)
+    {
+        // $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN',null,'Accès non autorisé');
+        if ($slug) {
+            $article = $this->getDoctrine()
+                ->getManager()
+                ->getRepository('AppBundle:Article')
+                ->getBySlug($slug);
+
+            if ($article) {
+                return $this->render('blog/read.html.twig', ['article' => $article]);
+            } else {
+                throw new \Exception('article require!');
+            }
+        } else {
+            throw new \Exception('id require!');
+        }
+    }
+
 }

@@ -1,0 +1,5 @@
+message: Bonjour à tous le monde !
+texte:
+  hello: Sale U le monde !
+  ciao: Au revoir %nom%
+  pluriel: il y a %count% pomme |]1,+Inf] il y a %count% pommes

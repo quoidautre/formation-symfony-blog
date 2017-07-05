@@ -9,10 +9,12 @@
         <p class="alert alert-success">{{ message }}</p>
     {% endfor %}
 
+    <h1>{{ 'message'|trans }}</h1>
+
     <h2> <span class="label label-danger">index (page n° : {{ page }})</span></h2>
 
     {#[{{ my_secret }}]#}
-
+    {{ dump(articles)}}
     {% for article in articles %}
         <div class="row">
             <div class="col-md-8"> 

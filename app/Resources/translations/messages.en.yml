@@ -1,0 +1,5 @@
+message: Hello de Lu !
+texte:
+  hello: Hell O World !
+  ciao: Bye %nom%
+  pluriel: There is %count% apple |]1,+Inf] There're %count% apples
