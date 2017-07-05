@@ -60,7 +60,9 @@ class ComposerStaticInitc861a7a2eeb2b3bef9a92fc1cf364822
         ),
         'K' => 
         array (
+            'Knp\\Menu\\' => 9,
             'Knp\\Bundle\\PaginatorBundle\\' => 27,
+            'Knp\\Bundle\\MenuBundle\\' => 22,
         ),
         'J' => 
         array (
@@ -199,9 +201,17 @@ class ComposerStaticInitc861a7a2eeb2b3bef9a92fc1cf364822
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
         ),
+        'Knp\\Menu\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/knplabs/knp-menu/src/Knp/Menu',
+        ),
         'Knp\\Bundle\\PaginatorBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/knplabs/knp-paginator-bundle',
+        ),
+        'Knp\\Bundle\\MenuBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/knplabs/knp-menu-bundle',
         ),
         'JMS\\SerializerBundle\\' => 
         array (
