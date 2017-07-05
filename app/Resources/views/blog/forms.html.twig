@@ -3,12 +3,8 @@
 {% for message in app.session.flashbag.get('error') %}
     <p class="alert alert-danger">{{ message }}</p>
 {% endfor %}
+
 {{ form (form,{ 'attr': {'novalidate': 'novalidate' }}) }}
 {{ form_start(form) }}
-
-{{ form_label(form.title) }}
-    {{ form_errors(form.title) }}
-    {{ form_widget(form.title) }}
-
 {{ form_row(form.date, {'attr':{'class': 'js-datepicker'}}) }}
 {{ form_end(form) }}

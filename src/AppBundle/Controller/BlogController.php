@@ -8,16 +8,13 @@ use AppBundle\Form\ArticleType;
 use AppBundle\Form\CommentType;
 use AppBundle\Repository\ArticleRepository;
 use AppBundle\Service\Excerpt;
-use FOS\UserBundle\Model\User;
-use function json_encode;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use \JMS\Serializer\SerializerBuilder;
+
 
 /**
  * @Route("/blog")
@@ -103,6 +100,21 @@ class BlogController extends Controller
         if ($form->isSubmitted() && $form->isValid() && $request->isMethod('POST')) {
             $session = $this->get('session');
             $em = $this->getDoctrine()->getManager();
+            ////////////////////////////////////////
+            $image = $article->getImage();
+
+            if ($image) {
+               // dump($request->files);
+
+                if ($url = $request->files->get($form->getName())['image']['url']) {
+                    $image->setUrl($url);
+                }
+
+                $uploadableManager = $this->get('stof_doctrine_extensions.uploadable.manager');
+                $uploadableManager->markEntityToUpload($image, $image->getUrl());
+            }
+            ////////////////////////////////////////
+
             $em->persist($article);
 
             try {
@@ -113,7 +125,7 @@ class BlogController extends Controller
 
             $session->getFlashBag()->add('notice', 'Article bien enregistrée.');
 
-            return $this->redirectToRoute('read_blog', ['id' => $article->getId()]);
+            return $this->redirectToRoute('read_blog', ['slug' => $article->getSlug()]);
         }
 
         return $this->render('blog/add.html.twig', ['form' => $form->createView()]);
@@ -133,7 +145,13 @@ class BlogController extends Controller
 
             try {
                 $article = $em->getRepository('AppBundle:Article')->find($id);
+                // force lazy loading not to do
+                if ($article->getImage()) {
+                    $article->getImage()->getUrl();
+                }
+
                 $em->remove($article);
+                // remove image ! 
                 $em->flush();
                 $typeAlert = 'success';
                 $session->getFlashBag()->add('messageremovearticle', 'Article succefully remove.');

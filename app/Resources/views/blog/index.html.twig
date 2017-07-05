@@ -17,7 +17,7 @@
         <div class="row">
             <div class="col-md-8"> 
                 <div class="well">
-                    <h3 class="panel-title"><a href="{{path('read_blog', {'slug': article.slug})}}">{{article.title}} [{{ article.getSlug() }}]</a></span></h3>
+                    <h3 class="panel-title"><a href="{{path('read_blog', {'slug': article.slug})}}">{{article.title}}</a></span></h3>
                    {# <p>>> {{article.excerpt|raw}}</p> #}
                     <p>{{ ExcerptTwig(article) | raw }}</p>
                     {# <p>{{ article | ex | raw}}</p> #}

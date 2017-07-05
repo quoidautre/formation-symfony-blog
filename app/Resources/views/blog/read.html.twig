@@ -11,7 +11,7 @@
                     <p>{{article.content|raw}}</p></div>
                 <div class="col-md-4"> 
                     {% if  article.image.url is defined %}
-                        <img src="{{article.image.url}}" alt="{{article.image.alt}}" width="120" height="120">
+                        <a href="{{ asset('uploads/')~article.image.webpath}}" target="_blank"><img src="{{ asset('uploads/')~article.image.webpath}}" alt="{{article.image.alt}}" width="200" height="180"></a>
                     {% endif %}
                 </div>
             </div>
@@ -66,6 +66,5 @@
             </div>
         </div>
         {{ dump(article) }}
-        {{ dump(app.user) }}
-        {{ dump(article.user) }}
+
     {% endblock %}
