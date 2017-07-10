@@ -39,7 +39,39 @@ server {
  access_log /var/log/nginx/formation-symfony-blog_access.log;
 }
 ```
-## Vhost Apache
+
+### Vhost Adminer
+```
+ server {
+     listen 80;
+     server_name vm.adminer;
+     root /vagrant/sharing/var/www/adminer;
+ 
+     # If you want to use a .htpass file, uncomment the three following lines.
+     #auth_basic "Admin-Area! Password needed!";
+     #auth_basic_user_file /usr/share/webapps/adminer/.htpass;
+     #access_log /var/log/nginx/adminer-access.log;
+ 
+     error_log /var/log/nginx/adminer-error.log;
+     location / {
+             index index.php;
+             try_files $uri $uri/ /index.php?$args;
+     }
+ 
+    location ~ .php$ {
+          #fastcgi_pass unix:/run/php-fpm/php-fpm.sock;
+          #fastcgi_index index.php;
+          fastcgi_param SCRIPT_FILENAME /usr/share/webapps/adminer$fastcgi_script_name;
+ 
+          fastcgi_split_path_info ^(.+\.php)(/.*)$;
+          include fastcgi_params;
+          fastcgi_pass   127.0.0.1:9000;
+          fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+          fastcgi_param DOCUMENT_ROOT $realpath_root;
+     }
+ }
+```
+### Vhost Apache
 ```
 
 <VirtualHost *:80>
