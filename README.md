@@ -52,7 +52,9 @@ server {
      #auth_basic_user_file /usr/share/webapps/adminer/.htpass;
      #access_log /var/log/nginx/adminer-access.log;
  
-     error_log /var/log/nginx/adminer-error.log;
+     error_log /var/log/nginx/adminer_error.log;
+     access_log /var/log/nginx/adminer_access.log;
+ 
      location / {
              index index.php;
              try_files $uri $uri/ /index.php?$args;
