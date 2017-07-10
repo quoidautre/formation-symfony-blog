@@ -1,5 +1,44 @@
 # formation-symfony-blog
 
+### Vhost Nginx
+```
+server {
+ server_name vm.formation-symfony-blog;
+ root /var/www/formation/symfony-blog/web;
+
+ location / {
+     # try to serve file directly, fallback to app.php
+     try_files $uri /app.php$is_args$args;
+ }
+ # DEV
+ # This rule should only be placed on your development environment
+ # In production, don't include this and don't deploy app_dev.php or config.php
+ location ~ ^/(app_dev|config)\.php(/|$) {
+     #fastcgi_pass unix:/var/run/php5-fpm.sock;
+     fastcgi_split_path_info ^(.+\.php)(/.*)$;
+     include fastcgi_params;
+     fastcgi_pass   127.0.0.1:9000;
+     # When you are using symlinks to link the document root to the
+     # current version of your application, you should pass the real
+     # application path instead of the path to the symlink to PHP
+     # FPM.
+     # Otherwise, PHP's OPcache may not properly detect changes to
+     # your PHP files (see https://github.com/zendtech/ZendOptimizerPlus/issues/126
+     # for more information).
+     fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+     fastcgi_param DOCUMENT_ROOT $realpath_root;
+ }
+
+ # return 404 for all other php files not matching the front controller
+ # this prevents access to other php files you don't want to be accessible.
+ location ~ \.php$ {
+     return 404;
+ }
+
+ error_log /var/log/nginx/formation-symfony-blog_error.log;
+ access_log /var/log/nginx/formation-symfony-blog_access.log;
+}
+```
 ### Database : 
 ```
 -- phpMyAdmin SQL Dump
