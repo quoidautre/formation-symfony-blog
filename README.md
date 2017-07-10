@@ -530,5 +530,8 @@ ALTER TABLE advert ADD CONSTRAINT FK_54F1F40B3DA5256D FOREIGN KEY (image_id) REF
 
 ### Finishing, and that's all fiolks !!
 ```
+composer install
 php bin/console doctrine:fixtures:load
+php bin/console fos:user:create fabrice
+php bin/console fos:user:promote fabrice
 ```
