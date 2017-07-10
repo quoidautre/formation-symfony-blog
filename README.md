@@ -527,3 +527,8 @@ ALTER TABLE comment ADD CONSTRAINT FK_9474526C7294869C FOREIGN KEY (article_id) 
 ALTER TABLE comment ADD CONSTRAINT FK_9474526CA76ED395 FOREIGN KEY (user_id) REFERENCES fos_user (id);
 ALTER TABLE advert ADD CONSTRAINT FK_54F1F40B3DA5256D FOREIGN KEY (image_id) REFERENCES advert__image (id);
 ```
+
+### Finishing, and that's all fiolks !!
+```
+php bin/console doctrine:fixtures:load
+```
