@@ -39,6 +39,52 @@ server {
  access_log /var/log/nginx/formation-symfony-blog_access.log;
 }
 ```
+## Vhost Apache
+```
+
+<VirtualHost *:80>
+    ServerName hb.mvc.fromscratch
+    DocumentRoot "C:\xampp\htdocs\php\MVC"
+    SetEnv APPLICATION_ENV "development"
+    <Directory "C:\xampp\htdocs\php\MVC">
+        DirectoryIndex app.php
+        AllowOverride All
+        Order allow,deny
+        Allow from all
+    </Directory>
+	 ErrorLog "logs/hb.mvc.fromscratch-error.log"
+    CustomLog "logs/hb.mvc.fromscratch-access.log" common
+</VirtualHost>
+
+<VirtualHost *:80>
+    ServerName hb.exopoo
+    DocumentRoot "C:\xampp\htdocs\php\ExoPoo\Web"
+    SetEnv APPLICATION_ENV "development"
+    <Directory "C:\xampp\htdocs\php\ExoPoo\Web">
+        DirectoryIndex app.php
+        AllowOverride All
+        Order allow,deny
+        Allow from all
+    </Directory>
+	 ErrorLog "logs/hb.ExoPoo-error.log"
+    CustomLog "logs/hb.ExoPoo-access.log" common
+</VirtualHost>
+
+<VirtualHost *:80>
+    ServerName localhost
+    DocumentRoot "C:\xampp\htdocs"
+    SetEnv APPLICATION_ENV "development"
+    <Directory "C:\xampp\htdocs">
+        DirectoryIndex index.php index.html
+        AllowOverride All
+        Order allow,deny
+        Allow from all
+    </Directory>
+	 ErrorLog "logs/hb.localhost-error.log"
+    CustomLog "logs/hb.localhost-access.log" common
+</VirtualHost>
+```
+
 ### Database : 
 ```
 -- phpMyAdmin SQL Dump
